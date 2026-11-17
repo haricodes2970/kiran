@@ -1,0 +1,120 @@
+export enum RoleName {
+  CUSTOMER = 'CUSTOMER',
+  ADMIN = 'ADMIN',
+  STAFF = 'STAFF',
+}
+
+export enum ProductCondition {
+  NEW = 'NEW',
+  OPEN_BOX = 'OPEN_BOX',
+  REFURBISHED = 'REFURBISHED',
+}
+
+export enum ProductStatus {
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum InventoryTransactionReason {
+  INITIAL_STOCK = 'INITIAL_STOCK',
+  RESTOCK = 'RESTOCK',
+  SALE_ORDER = 'SALE_ORDER',
+  ORDER_CANCELLED = 'ORDER_CANCELLED',
+  MANUAL_ADJUSTMENT = 'MANUAL_ADJUSTMENT',
+  DAMAGED_WRITEOFF = 'DAMAGED_WRITEOFF',
+  RETURNED = 'RETURNED',
+}
+
+export enum RefurbishedStatus {
+  PURCHASED = 'PURCHASED',
+  RECEIVED = 'RECEIVED',
+  INSPECTION_PENDING = 'INSPECTION_PENDING',
+  UNDER_INSPECTION = 'UNDER_INSPECTION',
+  REFURBISHMENT = 'REFURBISHMENT',
+  QUALITY_CHECK = 'QUALITY_CHECK',
+  READY_FOR_SALE = 'READY_FOR_SALE',
+  PUBLISHED = 'PUBLISHED',
+  SOLD = 'SOLD',
+}
+
+export enum ConditionGrade {
+  GRADE_A_EXCELLENT = 'GRADE_A_EXCELLENT',
+  GRADE_B_GOOD = 'GRADE_B_GOOD',
+  GRADE_C_FAIR = 'GRADE_C_FAIR',
+}
+
+export enum ServicePricingType {
+  FIXED = 'FIXED',
+  STARTING_FROM = 'STARTING_FROM',
+  QUOTE_REQUIRED = 'QUOTE_REQUIRED',
+}
+
+export enum RepairBookingStatus {
+  SUBMITTED = 'SUBMITTED',
+  DIAGNOSING = 'DIAGNOSING',
+  QUOTATION_SENT = 'QUOTATION_SENT',
+  APPROVED = 'APPROVED',
+  IN_REPAIR = 'IN_REPAIR',
+  QUALITY_TESTING = 'QUALITY_TESTING',
+  READY_FOR_PICKUP = 'READY_FOR_PICKUP',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum QuotationStatus {
+  PENDING_APPROVAL = 'PENDING_APPROVAL',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  EXPIRED = 'EXPIRED',
+}
+
+export enum OrderStatus {
+  PENDING_CONFIRMATION = 'PENDING_CONFIRMATION',
+  CONFIRMED = 'CONFIRMED',
+  PROCESSING = 'PROCESSING',
+  READY_FOR_PICKUP = 'READY_FOR_PICKUP',
+  DISPATCHED = 'DISPATCHED',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum PaymentStatus {
+  PENDING = 'PENDING',
+  PARTIALLY_PAID = 'PARTIALLY_PAID',
+  PAID = 'PAID',
+  REFUNDED = 'REFUNDED',
+  FAILED = 'FAILED',
+}
+
+export enum FulfilmentType {
+  STORE_PICKUP = 'STORE_PICKUP',
+  DELIVERY = 'DELIVERY',
+}
+
+export enum EnquiryStatus {
+  NEW = 'NEW',
+  IN_PROGRESS = 'IN_PROGRESS',
+  FOLLOWED_UP = 'FOLLOWED_UP',
+  CONVERTED = 'CONVERTED',
+  CLOSED = 'CLOSED',
+}
+
+export enum UsedDeviceSubmissionStatus {
+  SUBMITTED = 'SUBMITTED',
+  UNDER_EVALUATION = 'UNDER_EVALUATION',
+  OFFER_MADE = 'OFFER_MADE',
+  ACCEPTED = 'ACCEPTED',
+  ACQUIRED = 'ACQUIRED',
+  REJECTED = 'REJECTED',
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}

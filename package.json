@@ -1,0 +1,26 @@
+{
+  "name": "kirans-infotech",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kiran's Infotech — Full-Stack Computer Hardware Storefront, Refurbished Marketplace & IT Services Platform",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm --workspaces --if-present run build",
+    "build:api": "npm --workspace=packages/shared run build && npm --workspace=apps/api run build",
+    "dev:api": "npm --workspace=apps/api run start:dev",
+    "dev:web": "npm --workspace=apps/web run dev",
+    "test": "npm --workspace=apps/api run test",
+    "test:e2e": "npm --workspace=apps/api run test:e2e",
+    "typecheck": "npm --workspaces --if-present run typecheck",
+    "lint": "npm --workspaces --if-present run lint",
+    "db:generate": "npm --workspace=apps/api run prisma:generate",
+    "db:migrate": "npm --workspace=apps/api run prisma:migrate:dev",
+    "db:seed": "npm --workspace=apps/api run prisma:seed"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
