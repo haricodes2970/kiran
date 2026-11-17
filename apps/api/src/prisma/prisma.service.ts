@@ -12,7 +12,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
         db: {
           url:
             process.env.DATABASE_URL ||
-            'postgresql://postgres:postgres@127.0.0.1:5432/postgres?schema=public&pgbouncer=true&connection_limit=1',
+            'postgresql://postgres:postgres@127.0.0.1:5432/postgres?schema=public&sslmode=disable&connection_limit=1',
         },
       },
     });

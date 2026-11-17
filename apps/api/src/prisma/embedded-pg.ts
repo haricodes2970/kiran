@@ -31,6 +31,7 @@ function findMigrationSqlPath(): string | null {
     path.resolve(process.cwd(), 'prisma/migrations/20261117000000_init/migration.sql'),
     path.resolve(process.cwd(), 'apps/api/prisma/migrations/20261117000000_init/migration.sql'),
     path.resolve(__dirname, '../../prisma/migrations/20261117000000_init/migration.sql'),
+    path.resolve(__dirname, '../../../prisma/migrations/20261117000000_init/migration.sql'),
   ];
   for (const candidate of candidates) {
     if (fs.existsSync(candidate)) {
@@ -94,7 +95,6 @@ export async function ensurePostgresAvailable(): Promise<void> {
   activeServer = net.createServer((socket) => {
     socket.setNoDelay(true);
     socket.on('data', (chunk: Buffer) => {
-      // Handle PostgreSQL SSLRequest (8 bytes, code 80877103) by declining SSL ('N')
       if (chunk.length === 8 && chunk.readInt32BE(0) === 8 && chunk.readInt32BE(4) === 80877103) {
         socket.write(Buffer.from('N'));
         return;

@@ -11,12 +11,27 @@ export function configureApp(app: INestApplication): void {
   app.use(helmet());
   app.use(cookieParser());
 
-  const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000')
+  const configuredOrigins = (
+    process.env.CORS_ORIGIN || 'http://localhost:3000,http://127.0.0.1:3000'
+  )
     .split(',')
-    .map((o) => o.trim());
+    .map((o) => o.trim())
+    .filter(Boolean);
 
   app.enableCors({
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+      if (!origin) {
+        return callback(null, true);
+      }
+      if (
+        configuredOrigins.includes(origin) ||
+        (process.env.NODE_ENV !== 'production' &&
+          /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin))
+      ) {
+        return callback(null, true);
+      }
+      return callback(new Error(`Origin ${origin} not allowed by CORS`), false);
+    },
     credentials: true,
   });
 
