@@ -16,11 +16,15 @@ export default function AdminServicesPage() {
   const [estimatedTurnaround, setEstimatedTurnaround] = useState('24 Hours');
 
   const load = async () => {
-    const res = await apiFetch('/admin/services');
-    setCategories(res?.categories || []);
-    setServices(res?.services || []);
-    if (!categoryId && res?.categories?.length > 0) {
-      setCategoryId(res.categories[0].id);
+    try {
+      const res = await apiFetch('/admin/services');
+      setCategories(res?.categories || []);
+      setServices(res?.services || []);
+      if (!categoryId && res?.categories?.length > 0) {
+        setCategoryId(res.categories[0].id);
+      }
+    } catch (err: any) {
+      notify(err.message || 'Unable to load services', 'error');
     }
   };
 

@@ -33,8 +33,12 @@ export default function AdminRepairsPage() {
   const [labourCost, setLabourCost] = useState('800');
 
   const load = async () => {
-    const res = await apiFetch('/admin/repair-bookings');
-    setBookings(res || []);
+    try {
+      const res = await apiFetch('/admin/repair-bookings');
+      setBookings(res || []);
+    } catch (err: any) {
+      notify(err.message || 'Unable to load repair bookings', 'error');
+    }
   };
 
   useEffect(() => {

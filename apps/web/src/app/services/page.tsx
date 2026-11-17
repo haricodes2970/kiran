@@ -53,6 +53,9 @@ function ServicesAndRepairContent() {
         );
         setCategories(res?.categories || []);
         setServices(res?.services || []);
+      } catch {
+        setCategories([]);
+        setServices([]);
       } finally {
         setLoading(false);
       }

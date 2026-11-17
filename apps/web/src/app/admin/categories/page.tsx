@@ -11,8 +11,12 @@ export default function AdminCategoriesPage() {
   const [description, setDescription] = useState('');
 
   const load = async () => {
-    const res = await apiFetch('/admin/categories');
-    setCategories(res || []);
+    try {
+      const res = await apiFetch('/admin/categories');
+      setCategories(res || []);
+    } catch (err: any) {
+      notify(err.message || 'Unable to load categories', 'error');
+    }
   };
 
   useEffect(() => {

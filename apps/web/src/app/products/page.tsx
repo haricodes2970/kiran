@@ -67,6 +67,8 @@ function ProductsContent() {
         const res = await apiFetch(`/products?${params.toString()}`);
         setProducts(res?.data || []);
         setMeta(res?.meta || { total: 0, page: 1, limit: 12, totalPages: 1 });
+      } catch {
+        setProducts([]);
       } finally {
         setLoading(false);
       }

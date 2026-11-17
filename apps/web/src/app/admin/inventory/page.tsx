@@ -14,10 +14,14 @@ export default function AdminInventoryPage() {
   const [notes, setNotes] = useState('');
 
   const load = async () => {
-    const res = await apiFetch(`/admin/inventory?filter=${filter}`);
-    setItems(res || []);
-    if (!selectedProductId && res?.length > 0) {
-      setSelectedProductId(res[0].productId);
+    try {
+      const res = await apiFetch(`/admin/inventory?filter=${filter}`);
+      setItems(res || []);
+      if (!selectedProductId && res?.length > 0) {
+        setSelectedProductId(res[0].productId);
+      }
+    } catch (err: any) {
+      notify(err.message || 'Unable to load inventory', 'error');
     }
   };
 

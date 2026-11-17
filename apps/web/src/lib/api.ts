@@ -48,23 +48,46 @@ export async function apiFetch<T = any>(
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const url = endpoint.startsWith('http')
+  const normalizedPath = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const primaryUrl = endpoint.startsWith('http')
     ? endpoint
-    : `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+    : `${API_BASE_URL}${normalizedPath}`;
 
-  const res = await fetch(url, {
+  const fetchOptions: RequestInit = {
     ...options,
     headers,
     credentials: 'include',
     cache: options.cache ?? 'no-store',
-  });
+  };
+
+  let res: Response;
+  try {
+    res = await fetch(primaryUrl, fetchOptions);
+  } catch (networkErr) {
+    // Fallback to Next.js same-origin rewrite proxy (/api/v1/...) when running in browser
+    if (typeof window !== 'undefined' && !endpoint.startsWith('http')) {
+      try {
+        res = await fetch(`/api/v1${normalizedPath}`, fetchOptions);
+      } catch {
+        throw new Error(
+          `Cannot reach Kiran's Infotech API server (${API_BASE_URL}). Ensure the backend is running with "npm run dev:api".`,
+        );
+      }
+    } else {
+      throw new Error(
+        `Cannot reach Kiran's Infotech API server (${API_BASE_URL}). Ensure the backend is running with "npm run dev:api".`,
+      );
+    }
+  }
 
   if (!res.ok) {
     let errMessage = `Request failed (${res.status})`;
     try {
       const errBody = await res.json();
       if (Array.isArray(errBody?.details) && errBody.details.length > 0) {
-        errMessage = errBody.details.join(', ');
+        errMessage = errBody.details
+          .map((d: any) => (typeof d === 'string' ? d : d?.message || JSON.stringify(d)))
+          .join(', ');
       } else if (errBody?.message) {
         errMessage = Array.isArray(errBody.message)
           ? errBody.message.join(', ')

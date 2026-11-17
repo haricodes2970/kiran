@@ -39,12 +39,16 @@ export default function AdminRefurbishedPage() {
   const [status, setStatus] = useState('PUBLISHED');
 
   const load = async () => {
-    const [devRes, subRes] = await Promise.all([
-      apiFetch('/admin/refurbished-devices'),
-      apiFetch('/admin/used-device-submissions'),
-    ]);
-    setDevices(devRes || []);
-    setSubmissions(subRes || []);
+    try {
+      const [devRes, subRes] = await Promise.all([
+        apiFetch('/admin/refurbished-devices'),
+        apiFetch('/admin/used-device-submissions'),
+      ]);
+      setDevices(devRes || []);
+      setSubmissions(subRes || []);
+    } catch (err: any) {
+      notify(err.message || 'Unable to load refurbished devices', 'error');
+    }
   };
 
   useEffect(() => {

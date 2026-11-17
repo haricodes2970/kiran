@@ -31,6 +31,8 @@ export default function RefurbishedMarketplacePage() {
         params.set('sortBy', sortBy);
         const res = await apiFetch(`/refurbished?${params.toString()}`);
         setDevices(res?.data || []);
+      } catch {
+        setDevices([]);
       } finally {
         setLoading(false);
       }

@@ -39,6 +39,8 @@ export default function AdminProductsPage() {
       if (!categoryId && catRes?.length > 0) {
         setCategoryId(catRes[0].id);
       }
+    } catch (err: any) {
+      notify(err.message || 'Unable to load products', 'error');
     } finally {
       setLoading(false);
     }

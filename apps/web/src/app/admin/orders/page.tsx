@@ -27,8 +27,12 @@ export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<any[]>([]);
 
   const load = async () => {
-    const res = await apiFetch('/admin/orders');
-    setOrders(res || []);
+    try {
+      const res = await apiFetch('/admin/orders');
+      setOrders(res || []);
+    } catch (err: any) {
+      notify(err.message || 'Unable to load orders', 'error');
+    }
   };
 
   useEffect(() => {

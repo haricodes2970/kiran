@@ -21,12 +21,16 @@ export default function AdminEnquiriesPage() {
   const [internalNotes, setInternalNotes] = useState('');
 
   const load = async () => {
-    const res = await apiFetch(
-      search.trim()
-        ? `/admin/enquiries?search=${encodeURIComponent(search.trim())}`
-        : '/admin/enquiries',
-    );
-    setEnquiries(res || []);
+    try {
+      const res = await apiFetch(
+        search.trim()
+          ? `/admin/enquiries?search=${encodeURIComponent(search.trim())}`
+          : '/admin/enquiries',
+      );
+      setEnquiries(res || []);
+    } catch (err: any) {
+      notify(err.message || 'Unable to load enquiries', 'error');
+    }
   };
 
   useEffect(() => {
