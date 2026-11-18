@@ -1,17 +1,13 @@
 # Kiran's Infotech — GSD Phase Roadmap (`.planning/ROADMAP.md`)
 
 ## Completed Phases
-- [x] **Phase 0: Audit, Architecture & Docs** (`87063d3`)
-- [x] **Phase 1: Monorepo, PostgreSQL Schema & Demo Seed** (`a3b1086`, `896ff3f`)
-- [x] **Phase 2: Authentication, RBAC & Profile APIs** (`bca4590`)
-- [x] **Phase 3: Catalogue, Inventory & Refurbished Lifecycle APIs** (`b40f17e`)
-- [x] **Phase 4: Services, Repairs, Enquiries, Orders & Admin Analytics APIs** (`519a841`, `86b485e`)
-- [x] **Phase 5 (FE-A/B/C/D): Frontend Foundation, Design System, Homepage & Product Catalogue** (`965b9dc`, `f71521a`)
-- [x] **Phase 6 (FE-E/F/I): Refurbished Marketplace, Hardware Services, Repair Booking & Used Laptop Buyback** (`159943e`)
-- [x] **Phase 7 (FE-G): Authentication & Registered Customer Dashboard** (`b2114b1`)
-- [x] **Phase 8 (FE-H): Protected Administrative Dashboard** (`b269997`)
-- [x] **Phase 9: Phase 2 Stabilization & Full-Stack Verification**
-  - Fixed `@nestjs/cli` apostrophe shell quoting crash via `apps/api/scripts/start-api.js` (`shell: false`).
-  - Fixed cold-start embedded PostgreSQL initialization ordering in `apps/api/src/main.ts`.
-  - Added `GET /api/v1` root endpoint, Next.js `/api/v1/:path*` rewrite proxy, and `try/catch` error guards across all frontend pages.
-  - Added `docs/CLIENT_ACCESS_REQUIREMENTS.md`, `docs/INTEGRATION_CONFIGURATION.md`, `docs/ENVIRONMENT_VARIABLES.md`, and `docs/PHASE_2_STABILIZATION_REPORT.md`.
+- [x] **Phase 0–4: Backend Foundation, Auth, Catalogue, Inventory, Operations & E2E** (`87063d3`..`86b485e`)
+- [x] **Phase 5–8: Next.js 14 Storefront, Customer Portal & Admin Dashboard** (`965b9dc`..`b269997`)
+- [x] **Phase 9: Phase 2 Stabilization & Full-Stack Verification** (`55e3c81`..`b9b88d0`)
+- [x] **Phase 3.0:** Infrastructure Audit & Phase 3 Plan (`docs/PHASE_3_IMPLEMENTATION_PLAN.md`)
+- [x] **Phase 3.1 (Workstream 1):** Production Database Guardrails, SSL/Pooling Config & Runbook (`docs/PRODUCTION_DATABASE.md`)
+- [x] **Phase 3.2 (Workstream 2):** Provider-Independent Email Service, Templates, Retry/Dedup & Tests (`docs/EMAIL_INTEGRATION.md`)
+- [x] **Phase 3.3 (Workstream 3):** WhatsApp Business Cloud API Adapter, Webhook Signature Verification & Tests (`docs/WHATSAPP_INTEGRATION.md`)
+- [x] **Phase 3.4 (Workstream 4):** Media Storage Abstraction, Cloudinary Adapter, Magic-Byte Validation & Tests (`docs/FILE_STORAGE.md`)
+- [x] **Phase 3.5 (Workstream 5 & 6):** Hosting/Domain Architecture & Razorpay Payment Readiness (`docs/HOSTING_AND_DOMAIN.md`, `docs/PAYMENT_GATEWAY_ASSESSMENT.md`)
+- [x] **Phase 3.6 (Security & Final Verification):** Security Checklist, Client Approvals & Full Test Suite (`docs/PRODUCTION_SECURITY_CHECKLIST.md`, `docs/CLIENT_APPROVALS.md`)
