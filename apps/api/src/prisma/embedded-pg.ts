@@ -42,6 +42,17 @@ function findMigrationSqlPath(): string | null {
 }
 
 export async function ensurePostgresAvailable(): Promise<void> {
+  const isProd = process.env.NODE_ENV === 'production';
+
+  if (isProd) {
+    if (!process.env.DATABASE_URL) {
+      throw new Error(
+        'DATABASE_URL is required in production. Embedded PostgreSQL fallback is disabled when NODE_ENV=production.',
+      );
+    }
+    return;
+  }
+
   if (!process.env.DATABASE_URL) {
     process.env.DATABASE_URL =
       'postgresql://postgres:postgres@127.0.0.1:5432/postgres?schema=public&sslmode=disable&connection_limit=1';

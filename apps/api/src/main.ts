@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { configureApp } from './bootstrap';
+import { validateRuntimeEnvironment } from './config/env-validation';
 import { PrismaService } from './prisma/prisma.service';
 import { ensurePostgresAvailable } from './prisma/embedded-pg';
 import { seedDatabase } from '../prisma/seed';
@@ -9,10 +10,12 @@ import { seedDatabase } from '../prisma/seed';
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
 
-  // Ensure PostgreSQL (external or embedded PGlite) is listening before Prisma connects
+  validateRuntimeEnvironment();
+
+  // Ensure PostgreSQL (external or embedded PGlite in dev) is listening before Prisma connects
   await ensurePostgresAvailable();
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { rawBody: true });
   configureApp(app);
   await app.init();
 
