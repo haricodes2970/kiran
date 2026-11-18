@@ -11,3 +11,12 @@
 - [x] **Phase 3.4 (Workstream 4):** Media Storage Abstraction, Cloudinary Adapter, Magic-Byte Validation & Tests (`docs/FILE_STORAGE.md`)
 - [x] **Phase 3.5 (Workstream 5 & 6):** Hosting/Domain Architecture & Razorpay Payment Readiness (`docs/HOSTING_AND_DOMAIN.md`, `docs/PAYMENT_GATEWAY_ASSESSMENT.md`)
 - [x] **Phase 3.6 (Security & Final Verification):** Security Checklist, Client Approvals & Full Test Suite (`docs/PRODUCTION_SECURITY_CHECKLIST.md`, `docs/CLIENT_APPROVALS.md`)
+- [x] **Phase 4A–4I (Client Onboarding, Deployment Prep & Launch Readiness):**
+  - Hosting comparison & recommendation (`docs/HOSTING_COMPARISON.md`)
+  - Shutdown hooks, deployment/rollback runbooks & env matrix (`docs/DEPLOYMENT_RUNBOOK.md`, `docs/ROLLBACK_RUNBOOK.md`, `docs/PRODUCTION_ENVIRONMENT.md`)
+  - `ORDER_REQUEST_ONLY` idempotency hardening (`docs/ORDER_REQUEST_WORKFLOW.md`)
+  - Client onboarding, approval form & handover plan (`docs/CLIENT_ONBOARDING_CHECKLIST.md`, `docs/CLIENT_APPROVAL_FORM.md`, `docs/CLIENT_HANDOVER_PLAN.md`)
+  - CSV templates & dry-run/transactional import script (`templates/*.csv`, `apps/api/scripts/import-csv.ts`, `docs/DATA_IMPORT_GUIDE.md`)
+  - Live integration activation checklists (`docs/LIVE_INTEGRATION_ACTIVATION.md`)
+  - Persistent DB-backed email idempotency & security audit (`docs/PRODUCTION_SECURITY_AUDIT.md`)
+  - Go-live checklist, admin guide & maintenance plan (`docs/GO_LIVE_CHECKLIST.md`, `docs/ADMIN_USER_GUIDE.md`, `docs/POST_LAUNCH_MAINTENANCE.md`)
