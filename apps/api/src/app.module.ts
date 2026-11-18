@@ -14,6 +14,10 @@ import { RepairsModule } from './modules/repairs/repairs.module';
 import { EnquiriesModule } from './modules/enquiries/enquiries.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { WhatsappModule } from './modules/whatsapp/whatsapp.module';
+import { StorageModule } from './modules/storage/storage.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 @Module({
   imports: [
@@ -28,6 +32,10 @@ import { AdminModule } from './modules/admin/admin.module';
     ]),
     PrismaModule,
     AuditModule,
+    NotificationsModule,
+    WhatsappModule,
+    StorageModule,
+    PaymentsModule,
     HealthModule,
     AuthModule,
     CategoriesModule,
