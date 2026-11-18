@@ -1,0 +1,3 @@
+deviceCode,slug,title,brand,model,serialNumber,processor,ram,storage,display,graphics,osInstalled,batteryHealthPct,conditionGrade,warrantyMonths,acquisitionCost,refurbishmentCost,sellingPrice,status,featured
+REF-2026-001,dell-latitude-5420-i5-refurb,Dell Latitude 5420 i5 11th Gen (Refurbished),Dell,Latitude 5420,DL5420SN001,Intel Core i5-1145G7,16GB DDR4,512GB NVMe SSD,14-inch FHD IPS,Intel Iris Xe,Windows 11 Pro,86,GRADE_A_EXCELLENT,6,21500,1800,29500,READY_FOR_SALE,true
+REF-2026-002,lenovo-thinkpad-x1-carbon-g9,Lenovo ThinkPad X1 Carbon Gen 9 (Refurbished),Lenovo,X1 Carbon Gen 9,LNX1G9SN002,Intel Core i7-1165G7,16GB LPDDR4x,512GB NVMe SSD,14-inch FHD+ Anti-Glare,Intel Iris Xe,Windows 11 Pro,88,GRADE_A_EXCELLENT,6,31000,2200,42500,READY_FOR_SALE,false

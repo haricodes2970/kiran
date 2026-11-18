@@ -1,0 +1,3 @@
+sku,slug,name,brand,model,categorySlug,condition,costPrice,sellingPrice,mrpPrice,warrantyMonths,status,featured,shortSummary,description
+KI-LAP-001,lenovo-thinkpad-t14-gen3-new,Lenovo ThinkPad T14 Gen 3,Lenovo,ThinkPad T14 Gen 3,business-laptops,NEW,68000,79500,88000,12,PUBLISHED,true,"14-inch business laptop with Intel Core i5 and 16GB RAM","Brand new Lenovo ThinkPad T14 Gen 3 with 1-year official warranty and GST invoice."
+KI-PRT-001,hp-laserjet-pro-m126nw,HP LaserJet Pro MFP M126nw,HP,M126nw,printers-scanners,NEW,17200,20500,22999,12,PUBLISHED,false,"All-in-one monochrome Wi-Fi laser printer","Reliable office monochrome print/scan/copy laser printer with Wi-Fi and USB support."
