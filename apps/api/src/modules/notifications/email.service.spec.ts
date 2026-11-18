@@ -75,4 +75,46 @@ describe('EmailService & Templates Unit Tests', () => {
     expect(res.success).toBe(false);
     expect(res.error).toBe('Email delivery deferred due to provider error');
   });
+
+  it('deduplicates across separate EmailService instances via persistent AuditLog storage', async () => {
+    const storedLogs: Array<{ entityId: string; action: string; entityType: string }> = [];
+    const mockPrisma: any = {
+      auditLog: {
+        findFirst: async ({ where }: any) =>
+          storedLogs.find(
+            (l) =>
+              l.action === where.action &&
+              l.entityType === where.entityType &&
+              l.entityId === where.entityId,
+          ) ?? null,
+        create: async ({ data }: any) => {
+          storedLogs.push(data);
+          return data;
+        },
+      },
+    };
+
+    const sandbox1 = new SandboxEmailAdapter();
+    const service1 = new EmailService(mockPrisma, sandbox1);
+    const first = await service1.sendEventEmail({
+      event: EmailEventType.ORDER_REQUEST_CONFIRMATION,
+      to: 'buyer@example.com',
+      idempotencyKey: 'ord-persist-1',
+      data: { customerName: 'Rahul', reference: 'ORD-P1', totalAmount: '10000' },
+    });
+    expect(first.success).toBe(true);
+    expect(sandbox1.sentLog).toHaveLength(1);
+
+    // Simulate process restart / second horizontal instance with empty in-memory Set
+    const sandbox2 = new SandboxEmailAdapter();
+    const service2 = new EmailService(mockPrisma, sandbox2);
+    const second = await service2.sendEventEmail({
+      event: EmailEventType.ORDER_REQUEST_CONFIRMATION,
+      to: 'buyer@example.com',
+      idempotencyKey: 'ord-persist-1',
+      data: { customerName: 'Rahul', reference: 'ORD-P1', totalAmount: '10000' },
+    });
+    expect(second.messageId).toBe('deduplicated-skipped');
+    expect(sandbox2.sentLog).toHaveLength(0);
+  });
 });

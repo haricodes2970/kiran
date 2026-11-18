@@ -68,6 +68,11 @@ export class CreateOrderDto {
   @IsOptional()
   @IsString()
   customerNotes?: string;
+
+  @ApiPropertyOptional({ description: 'Client-generated idempotency key to prevent duplicate order requests' })
+  @IsOptional()
+  @IsString()
+  idempotencyKey?: string;
 }
 
 export class UpdateOrderStatusDto {

@@ -74,9 +74,31 @@ export class OrdersService {
   }
 
   async createOrder(customerId: string, dto: CreateOrderDto) {
+    const idempotencyKey = dto.idempotencyKey?.trim() || undefined;
     const reference = generateReference('ORD');
 
     const created = await this.prisma.$transaction(async (tx) => {
+      if (idempotencyKey && tx.auditLog?.findFirst) {
+        const existingLog = await tx.auditLog.findFirst({
+          where: {
+            actorId: customerId,
+            action: 'ORDER_IDEMPOTENCY',
+            entityType: 'Order',
+            safeMetadata: idempotencyKey,
+          },
+          orderBy: { createdAt: 'desc' },
+        });
+        if (existingLog?.entityId) {
+          const existingOrder = await tx.order.findUnique({
+            where: { id: existingLog.entityId },
+            include: { items: true, payments: true },
+          });
+          if (existingOrder) {
+            return existingOrder;
+          }
+        }
+      }
+
       const orderItemsData: Array<{
         productId?: string | null;
         refurbishedDeviceId?: string | null;
@@ -192,7 +214,7 @@ export class OrdersService {
       const subtotal = Math.round((totalAmount / 1.18) * 100) / 100;
       const taxAmount = Math.round((totalAmount - subtotal) * 100) / 100;
 
-      return tx.order.create({
+      const order = await tx.order.create({
         data: {
           reference,
           customerId,
@@ -226,6 +248,20 @@ export class OrdersService {
           payments: true,
         },
       });
+
+      if (idempotencyKey && tx.auditLog?.create) {
+        await tx.auditLog.create({
+          data: {
+            actorId: customerId,
+            action: 'ORDER_IDEMPOTENCY',
+            entityType: 'Order',
+            entityId: order.id,
+            safeMetadata: idempotencyKey,
+          },
+        });
+      }
+
+      return order;
     });
 
     return this.serializeCustomerOrder(created);

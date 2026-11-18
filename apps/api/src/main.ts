@@ -17,6 +17,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule, { rawBody: true });
   configureApp(app);
+  app.enableShutdownHooks();
   await app.init();
 
   // If running in demo/dev mode and database has 0 categories, auto-seed demo records once

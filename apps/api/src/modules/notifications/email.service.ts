@@ -51,13 +51,36 @@ export class EmailService {
       ? `${params.event}:${params.to}:${params.idempotencyKey}`
       : undefined;
 
-    if (dedupKey && this.sentKeys.has(dedupKey)) {
-      return {
-        success: true,
-        provider: this.provider.name,
-        sandboxed: this.provider.name === 'sandbox',
-        messageId: 'deduplicated-skipped',
-      };
+    if (dedupKey) {
+      if (this.sentKeys.has(dedupKey)) {
+        return {
+          success: true,
+          provider: this.provider.name,
+          sandboxed: this.provider.name === 'sandbox',
+          messageId: 'deduplicated-skipped',
+        };
+      }
+
+      if (this.prisma?.auditLog?.findFirst) {
+        const alreadySent = await this.prisma.auditLog
+          .findFirst({
+            where: {
+              action: 'EMAIL_SENT_IDEMPOTENCY',
+              entityType: 'EmailIdempotency',
+              entityId: dedupKey,
+            },
+          })
+          .catch(() => null);
+        if (alreadySent) {
+          this.sentKeys.add(dedupKey);
+          return {
+            success: true,
+            provider: this.provider.name,
+            sandboxed: this.provider.name === 'sandbox',
+            messageId: 'deduplicated-skipped',
+          };
+        }
+      }
     }
 
     const rendered = renderEmailTemplate(params.event, params.data);
@@ -76,6 +99,19 @@ export class EmailService {
 
         if (dedupKey) {
           this.sentKeys.add(dedupKey);
+          if (this.prisma?.auditLog?.create) {
+            await this.prisma.auditLog
+              .create({
+                data: {
+                  actorId: params.userId ?? null,
+                  action: 'EMAIL_SENT_IDEMPOTENCY',
+                  entityType: 'EmailIdempotency',
+                  entityId: dedupKey,
+                  safeMetadata: `${params.event}`,
+                },
+              })
+              .catch(() => {});
+          }
         }
 
         if (this.prisma && params.userId) {
