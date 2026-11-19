@@ -34,6 +34,23 @@ export function Footer() {
     };
   }, []);
 
+  const isPlaceholder = (val?: string) => {
+    if (!val) return true;
+    const l = val.toLowerCase();
+    return (
+      l.includes('90000 00000') ||
+      l.includes('9000000000') ||
+      l.includes('example.com') ||
+      l.includes('placeholder') ||
+      l.includes('sample demo')
+    );
+  };
+
+  const validAddress = info?.address && !isPlaceholder(info.address) ? info.address : null;
+  const validPhone = info?.phone && !isPlaceholder(info.phone) ? info.phone : null;
+  const validEmail = info?.email && !isPlaceholder(info.email) ? info.email : null;
+  const validHours = info?.operatingHours?.trim() || null;
+
   const waUrl = buildWhatsAppUrl(
     "Hello Kiran's Infotech, I would like to enquire about hardware or IT services.",
     info?.whatsappNumber || undefined,
@@ -172,31 +189,31 @@ export function Footer() {
                 Business Contact
               </h3>
               <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-300">
-                {info?.address && (
+                {validAddress && (
                   <li className="flex items-start gap-2.5">
                     <MapPin className="h-4 w-4 text-brand-600 dark:text-electric shrink-0 mt-0.5" />
-                    <span>{info.address}</span>
+                    <span>{validAddress}</span>
                   </li>
                 )}
-                {info?.phone && (
+                {validPhone && (
                   <li className="flex items-center gap-2.5">
                     <Phone className="h-4 w-4 text-brand-600 dark:text-electric shrink-0" />
-                    <span>{info.phone}</span>
+                    <span>{validPhone}</span>
                   </li>
                 )}
-                {info?.email && (
+                {validEmail && (
                   <li className="flex items-center gap-2.5">
                     <Mail className="h-4 w-4 text-brand-600 dark:text-electric shrink-0" />
-                    <span>{info.email}</span>
+                    <span>{validEmail}</span>
                   </li>
                 )}
-                {info?.operatingHours && (
+                {validHours && (
                   <li className="flex items-start gap-2.5">
                     <Clock className="h-4 w-4 text-brand-600 dark:text-electric shrink-0 mt-0.5" />
-                    <span>{info.operatingHours}</span>
+                    <span>{validHours}</span>
                   </li>
                 )}
-                {!info?.address && !info?.phone && !info?.email && !info?.operatingHours && (
+                {!validAddress && !validPhone && !validEmail && !validHours && (
                   <li className="text-xs text-slate-500 dark:text-slate-400">
                     Visit{' '}
                     <Link href="/contact" className="text-brand-600 dark:text-electric underline">
