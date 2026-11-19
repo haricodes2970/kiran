@@ -1,16 +1,39 @@
 import type { Metadata } from 'next';
+import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { AppProvider } from '@/context/app-context';
-import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+import { ThemeProvider } from '@/context/theme-context';
+import { PublicShell } from '@/components/layout/public-shell';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: {
-    default: "Kiran's Infotech — Computer Hardware, Certified Refurbished Laptops & IT Service Lab",
+    default: "Kiran's Infotech — Laptops, Computer Hardware & IT Services",
     template: "%s | Kiran's Infotech",
   },
   description:
-    "Shop new laptops, desktops, NVMe SSDs, RAM modules, monitors, 40-point certified refurbished laptops, and book chip-level hardware repairs at Kiran's Infotech.",
+    "Discover quality laptops, computer hardware, certified refurbished devices, and professional repair and upgrade services at Kiran's Infotech.",
+  icons: {
+    icon: '/brand/kirans-mark.png',
+    apple: '/brand/kirans-mark.png',
+  },
 };
 
 export default function RootLayout({
@@ -19,12 +42,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col">
+    <html
+      lang="en"
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="min-h-screen">
         <AppProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <ThemeProvider>
+            <PublicShell>{children}</PublicShell>
+          </ThemeProvider>
         </AppProvider>
       </body>
     </html>
