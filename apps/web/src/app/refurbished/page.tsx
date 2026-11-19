@@ -41,28 +41,25 @@ export default function RefurbishedMarketplacePage() {
   }, [brand, conditionGrade, sortBy]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Header Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-[#0B1930] dark:bg-[#102342] border border-blue-400/20 text-white p-6 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-glass">
-        <div
-          className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-brand-600/30 blur-3xl pointer-events-none"
-          aria-hidden="true"
-        />
-        <div className="relative space-y-2.5 max-w-2xl">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-600/25 px-3 py-1 font-mono text-[11px] font-semibold text-electric border border-electric/30">
-            <ShieldCheck className="h-3.5 w-3.5" /> Inspected &amp; Serial-Tracked Units
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-7">
+      {/* Theme-Consistent Header Banner */}
+      <div className="glass-stage rounded-card p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div className="space-y-2.5 max-w-2xl">
+          <span className="inline-flex items-center gap-1.5 rounded-md bg-blue-50 dark:bg-brand-600/20 border border-blue-200/80 dark:border-electric/30 px-2.5 py-1 font-mono text-[11px] font-semibold text-brand-700 dark:text-electric">
+            <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+            <span>Certified Refurbished · Serial-Tracked Single Units</span>
           </span>
-          <h1 className="font-display text-2xl sm:text-3xl font-bold">
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-fg">
             Inspected Refurbished Laptop Marketplace
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-muted leading-relaxed">
             Each refurbished laptop listed here includes recorded hardware specs, condition grading, battery status where measured, and single-unit availability tracking.
           </p>
         </div>
-        <div className="relative flex flex-wrap gap-3 shrink-0">
+        <div className="flex flex-wrap gap-3 shrink-0">
           <Link
             href="/sell-laptop"
-            className="rounded-full bg-brand-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-brand-500 transition"
+            className="rounded-control bg-brand-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 transition-colors"
           >
             Sell Your Used Laptop
           </Link>
@@ -70,13 +67,13 @@ export default function RefurbishedMarketplacePage() {
       </div>
 
       {/* Glass Filter Bar */}
-      <div className="glass-filter rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="glass-filter rounded-card p-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
           <select
             aria-label="Filter by brand"
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
-            className="glass-input rounded-full px-3.5 py-2 text-xs font-medium"
+            className="glass-input rounded-control px-3 py-2 text-xs font-medium"
           >
             <option value="">All Brands</option>
             <option value="Lenovo">Lenovo ThinkPad</option>
@@ -89,7 +86,7 @@ export default function RefurbishedMarketplacePage() {
             aria-label="Filter by condition grade"
             value={conditionGrade}
             onChange={(e) => setConditionGrade(e.target.value)}
-            className="glass-input rounded-full px-3.5 py-2 text-xs font-medium"
+            className="glass-input rounded-control px-3 py-2 text-xs font-medium"
           >
             <option value="">All Condition Grades</option>
             <option value="GRADE_A_EXCELLENT">Grade A — Excellent</option>
@@ -104,7 +101,7 @@ export default function RefurbishedMarketplacePage() {
             aria-label="Sort refurbished laptops"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="glass-input rounded-full px-3.5 py-2 text-xs font-medium"
+            className="glass-input rounded-control px-3 py-2 text-xs font-medium"
           >
             <option value="newest">Recently Listed</option>
             <option value="price_asc">Price: Low to High</option>
@@ -115,14 +112,14 @@ export default function RefurbishedMarketplacePage() {
 
       {/* Listings */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-96 rounded-2xl bg-panel/60 animate-pulse" />
+            <div key={i} className="h-96 rounded-card bg-panel animate-pulse border border-subtle" />
           ))}
         </div>
       ) : devices.length === 0 ? (
-        <div className="glass-card rounded-2xl p-12 text-center space-y-2">
-          <Laptop className="h-10 w-10 text-muted mx-auto" />
+        <div className="surface-card p-10 text-center space-y-2">
+          <Laptop className="h-10 w-10 text-muted mx-auto" aria-hidden="true" />
           <p className="text-base font-bold text-fg">
             No refurbished units match your current filter
           </p>
@@ -131,16 +128,16 @@ export default function RefurbishedMarketplacePage() {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {devices.map((dev) => (
             <article
               key={dev.id}
-              className="glass-card rounded-2xl overflow-hidden flex flex-col justify-between hover:-translate-y-1 hover:border-brand-600 dark:hover:border-electric hover:shadow-card transition-all duration-300"
+              className="surface-card overflow-hidden flex flex-col justify-between hover:border-accent hover:shadow-card transition-all duration-200"
             >
               <div>
                 <Link
                   href={`/refurbished/${dev.slug}`}
-                  className="block relative h-48 bg-white border-b border-subtle overflow-hidden group"
+                  className="block relative h-48 bg-panel-2 border-b border-subtle overflow-hidden group"
                 >
                   {dev.imageUrls?.[0] ? (
                     <img
@@ -150,14 +147,16 @@ export default function RefurbishedMarketplacePage() {
                       className="h-full w-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
                     />
                   ) : (
-                    <div className="h-full flex items-center justify-center text-slate-400">
-                      <Laptop className="h-10 w-10" />
+                    <div className="h-full flex items-center justify-center text-muted">
+                      <Laptop className="h-10 w-10" aria-hidden="true" />
                     </div>
                   )}
-                  <span className="absolute top-3 left-3 rounded-full bg-brand-600 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase text-white">
-                    {dev.conditionGrade?.replace(/_/g, ' ')}
-                  </span>
-                  <span className="absolute top-3 right-3 rounded-full bg-ink/85 px-2.5 py-0.5 text-[10px] font-mono text-white">
+                  {dev.conditionGrade && (
+                    <span className="absolute top-3 left-3 rounded-md bg-brand-600 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase text-white">
+                      {dev.conditionGrade.replace(/_/g, ' ')}
+                    </span>
+                  )}
+                  <span className="absolute top-3 right-3 rounded-md bg-[#071122]/85 border border-white/15 px-2 py-0.5 text-[10px] font-mono text-white">
                     {dev.deviceCode}
                   </span>
                 </Link>
@@ -170,39 +169,39 @@ export default function RefurbishedMarketplacePage() {
                     {dev.title}
                   </Link>
 
-                  <div className="grid grid-cols-2 gap-2 text-xs bg-panel-2/80 p-3 rounded-xl border border-subtle">
-                    <div>
-                      <span className="block text-[10px] uppercase text-muted font-semibold">
-                        Processor
-                      </span>
-                      <span className="font-medium text-fg">{dev.processor}</span>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] uppercase text-muted font-semibold">
-                        RAM &amp; SSD
-                      </span>
-                      <span className="font-medium text-fg">
-                        {dev.ram} / {dev.storage}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] uppercase text-muted font-semibold">
-                        Display
-                      </span>
-                      <span className="font-medium text-fg">{dev.display}</span>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] uppercase text-muted font-semibold">
-                        Battery Health
-                      </span>
-                      <span className="font-semibold text-emerald-600 dark:text-emerald-400 inline-flex items-center gap-1">
-                        <BatteryCharging className="h-3.5 w-3.5" />
-                        {dev.batteryHealthPct
-                          ? `${dev.batteryHealthPct}%`
-                          : 'Recorded in store'}
-                      </span>
-                    </div>
-                  </div>
+                  <dl className="divide-y divide-subtle border-y border-subtle font-mono text-[11px]">
+                    {dev.processor && (
+                      <div className="py-1.5 flex items-center justify-between gap-2">
+                        <dt className="text-muted">CPU</dt>
+                        <dd className="font-medium text-fg truncate text-right">{dev.processor}</dd>
+                      </div>
+                    )}
+                    {(dev.ram || dev.storage) && (
+                      <div className="py-1.5 flex items-center justify-between gap-2">
+                        <dt className="text-muted">RAM / SSD</dt>
+                        <dd className="font-medium text-fg truncate text-right">
+                          {[dev.ram, dev.storage].filter(Boolean).join(' · ')}
+                        </dd>
+                      </div>
+                    )}
+                    {dev.display && (
+                      <div className="py-1.5 flex items-center justify-between gap-2">
+                        <dt className="text-muted">Display</dt>
+                        <dd className="font-medium text-fg truncate text-right">{dev.display}</dd>
+                      </div>
+                    )}
+                    {typeof dev.batteryHealthPct === 'number' && (
+                      <div className="py-1.5 flex items-center justify-between gap-2">
+                        <dt className="text-muted flex items-center gap-1">
+                          <BatteryCharging className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+                          <span>Battery</span>
+                        </dt>
+                        <dd className="font-semibold text-emerald-700 dark:text-emerald-400">
+                          {dev.batteryHealthPct}%
+                        </dd>
+                      </div>
+                    )}
+                  </dl>
 
                   {dev.workPerformed && (
                     <p className="text-xs text-muted line-clamp-2">
@@ -214,11 +213,11 @@ export default function RefurbishedMarketplacePage() {
               </div>
 
               <div className="p-5 pt-0 space-y-3">
-                <div className="pt-3 border-t border-subtle flex items-center justify-between">
+                <div className="pt-3 border-t border-subtle flex items-center justify-between gap-3">
                   <div>
                     {typeof dev.warrantyMonths === 'number' && dev.warrantyMonths > 0 && (
-                      <span className="block text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
-                        <CheckCircle2 className="h-3 w-3 inline mr-1" />
+                      <span className="block text-[11px] text-emerald-700 dark:text-emerald-400 font-medium">
+                        <CheckCircle2 className="h-3 w-3 inline mr-1" aria-hidden="true" />
                         {dev.warrantyMonths}M Store Warranty
                       </span>
                     )}
@@ -229,6 +228,7 @@ export default function RefurbishedMarketplacePage() {
 
                   <AddToCartButton
                     label="Add to Cart"
+                    showCartLink
                     onAdd={() =>
                       addToCart({
                         id: dev.id,
@@ -247,7 +247,7 @@ export default function RefurbishedMarketplacePage() {
                 <div className="flex items-center gap-2">
                   <Link
                     href={`/refurbished/${dev.slug}`}
-                    className="flex-1 text-center rounded-full border border-subtle bg-panel-2/60 px-3 py-1.5 text-xs font-semibold text-fg hover:border-accent transition"
+                    className="flex-1 text-center rounded-control border border-subtle bg-panel-2 px-3 py-1.5 text-xs font-semibold text-fg hover:border-accent transition-colors"
                   >
                     Inspect Unit
                   </Link>
@@ -258,9 +258,9 @@ export default function RefurbishedMarketplacePage() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`WhatsApp enquiry for ${dev.title}`}
-                    className="inline-flex items-center gap-1 rounded-full border border-emerald-600/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20 transition"
+                    className="inline-flex items-center justify-center gap-1 rounded-control border border-emerald-600/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20 transition-colors"
                   >
-                    <MessageCircle className="h-3.5 w-3.5" />
+                    <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
                     <span>Enquire</span>
                   </a>
                 </div>
