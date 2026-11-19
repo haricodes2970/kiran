@@ -77,6 +77,13 @@ html.dark {
     border: 1px solid var(--border-subtle);
   }
 
+  .glass-stage {
+    background: rgba(244, 248, 255, 0.92);
+    border: 1px solid rgba(147, 197, 253, 0.65);
+    box-shadow: 0 18px 42px -18px rgba(20, 35, 59, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  }
+
   .glass-filter,
   .glass-modal {
     background: rgba(244, 248, 255, 0.95);
@@ -117,6 +124,12 @@ html.dark {
       -webkit-backdrop-filter: blur(16px) saturate(155%);
     }
 
+    .glass-stage {
+      background: rgba(244, 248, 255, 0.78);
+      backdrop-filter: blur(18px) saturate(155%);
+      -webkit-backdrop-filter: blur(18px) saturate(155%);
+    }
+
     .glass-pill {
       background: rgba(255, 255, 255, 0.72);
       backdrop-filter: blur(10px);
@@ -144,6 +157,13 @@ html.dark {
         inset 0 1px 0 rgba(147, 197, 253, 0.14);
     }
 
+    html.dark .glass-stage {
+      background: rgba(11, 25, 48, 0.86);
+      border-color: rgba(96, 165, 250, 0.26);
+      box-shadow: 0 20px 44px -14px rgba(2, 8, 20, 0.72),
+        inset 0 1px 0 rgba(147, 197, 253, 0.14);
+    }
+
     html.dark .glass-pill {
       background: rgba(18, 36, 62, 0.74);
       border-color: rgba(96, 165, 250, 0.26);
@@ -163,6 +183,11 @@ html.dark {
   html.dark .glass-card {
     background: rgba(18, 36, 62, 0.94);
     border-color: var(--border-subtle);
+  }
+
+  html.dark .glass-stage {
+    background: rgba(11, 25, 48, 0.94);
+    border-color: rgba(96, 165, 250, 0.26);
   }
 
   html.dark .glass-filter,

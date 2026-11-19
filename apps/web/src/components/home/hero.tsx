@@ -109,34 +109,43 @@ export function Hero({ content, heroProduct, onAddToCart }: HeroProps) {
           {/* Right Art-Directed Hardware Stage */}
           <div className="lg:col-span-7">
             {hasProductVisual && heroProduct ? (
-              <div className="rounded-card border border-blue-950/15 dark:border-blue-400/20 bg-[#0B1930] dark:bg-[#071122] text-white overflow-hidden shadow-elevated">
-                {/* Seamless Full-Bleed Product Photography (no white cutout box) */}
+              <div
+                data-testid="hero-product-stage"
+                className="glass-stage rounded-card text-fg overflow-hidden transition-colors duration-300"
+              >
+                {/* Seamless Full-Bleed Product Photography with theme-adapted gradient scrim */}
                 <Link
                   href={`/products/${heroProduct.slug}`}
-                  className="block relative aspect-[16/10] w-full overflow-hidden group bg-[#071122]"
+                  className="block relative aspect-[16/10] w-full overflow-hidden group border-b border-subtle bg-[#DCEAFE] dark:bg-[#071122]"
                 >
                   <img
                     src={heroProduct.images![0].url}
                     alt={heroProduct.images![0].altText || heroProduct.name}
                     className="h-full w-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                   />
+                  {/* Light-mode atmospheric bottom blend */}
                   <div
-                    className="absolute inset-0 bg-gradient-to-t from-[#0B1930] via-[#0B1930]/20 to-black/25 dark:from-[#071122] dark:via-[#071122]/25"
+                    className="absolute inset-0 bg-gradient-to-t from-[#F4F8FF]/90 via-[#F4F8FF]/10 to-transparent dark:hidden pointer-events-none"
+                    aria-hidden="true"
+                  />
+                  {/* Dark-mode atmospheric bottom blend */}
+                  <div
+                    className="hidden dark:block absolute inset-0 bg-gradient-to-t from-[#0B1930] via-[#0B1930]/25 to-black/25 pointer-events-none"
                     aria-hidden="true"
                   />
 
                   {/* Top overlay metadata */}
                   <div className="absolute top-3.5 inset-x-3.5 sm:inset-x-4 flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center truncate max-w-[64%] rounded-md bg-[#071122]/80 backdrop-blur-md border border-white/15 px-2.5 py-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-100">
+                    <span className="inline-flex items-center truncate max-w-[64%] rounded-md bg-white/90 dark:bg-[#071122]/85 backdrop-blur-md border border-blue-200/80 dark:border-white/15 px-2.5 py-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-[#14233B] dark:text-slate-100 shadow-sm">
                       {heroProduct.brand}
                       {heroProduct.model ? ` · ${heroProduct.model}` : ''}
                     </span>
 
                     <span
-                      className={`shrink-0 whitespace-nowrap rounded-md px-2.5 py-1 font-mono text-[10px] font-semibold uppercase backdrop-blur-md border ${
+                      className={`shrink-0 whitespace-nowrap rounded-md px-2.5 py-1 font-mono text-[10px] font-semibold uppercase backdrop-blur-md border shadow-sm ${
                         heroProduct.inStock
-                          ? 'bg-emerald-950/80 text-emerald-300 border-emerald-400/30'
-                          : 'bg-slate-900/80 text-slate-300 border-white/15'
+                          ? 'bg-emerald-50/95 text-emerald-800 border-emerald-300/80 dark:bg-emerald-950/85 dark:text-emerald-300 dark:border-emerald-400/30'
+                          : 'bg-slate-100/95 text-slate-700 border-slate-300 dark:bg-slate-900/85 dark:text-slate-300 dark:border-white/15'
                       }`}
                     >
                       {heroProduct.inStock
@@ -151,29 +160,36 @@ export function Hero({ content, heroProduct, onAddToCart }: HeroProps) {
                   <div className="space-y-1.5">
                     <Link
                       href={`/products/${heroProduct.slug}`}
-                      className="block font-display text-lg sm:text-xl font-bold text-white hover:text-electric transition-colors leading-snug"
+                      data-testid="hero-product-title"
+                      className="block font-display text-lg sm:text-xl font-bold text-fg hover:text-accent transition-colors leading-snug"
                     >
                       {heroProduct.name}
                     </Link>
                     {heroProduct.shortSummary && (
-                      <p className="text-xs sm:text-sm text-slate-300 line-clamp-2">
+                      <p
+                        data-testid="hero-product-description"
+                        className="text-xs sm:text-sm text-muted line-clamp-2"
+                      >
                         {heroProduct.shortSummary}
                       </p>
                     )}
                   </div>
 
-                  {/* Real Specifications (only rendered when backed by catalogue data) */}
+                  {/* Real Specifications (solid light/dark surface, no individual blur) */}
                   {heroSpecs.length > 0 && (
                     <dl className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                       {heroSpecs.map((spec) => (
                         <div
                           key={spec.key}
-                          className="rounded-lg border border-white/10 bg-white/[0.04] px-2.5 py-2"
+                          className="rounded-lg border border-subtle bg-panel/90 dark:bg-white/[0.04] px-2.5 py-2"
                         >
-                          <dt className="font-mono text-[10px] uppercase tracking-wider text-slate-400">
+                          <dt className="font-mono text-[10px] uppercase tracking-wider text-muted">
                             {spec.key}
                           </dt>
-                          <dd className="text-xs font-medium text-slate-100 truncate mt-0.5" title={spec.value}>
+                          <dd
+                            className="text-xs font-medium text-fg truncate mt-0.5"
+                            title={spec.value}
+                          >
                             {spec.value}
                           </dd>
                         </div>
@@ -182,19 +198,22 @@ export function Hero({ content, heroProduct, onAddToCart }: HeroProps) {
                   )}
 
                   {/* Pricing & Warm Amber Shopping Actions */}
-                  <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+                  <div className="pt-3 border-t border-subtle flex flex-wrap items-center justify-between gap-4">
                     <div>
                       <div className="flex items-baseline gap-2.5">
-                        <span className="font-display text-xl sm:text-2xl font-bold text-white">
+                        <span
+                          data-testid="hero-product-price"
+                          className="font-display text-xl sm:text-2xl font-bold text-fg"
+                        >
                           {formatINR(heroProduct.sellingPrice)}
                         </span>
                         {showMrp && (
-                          <span className="font-mono text-xs text-slate-400 line-through">
+                          <span className="font-mono text-xs text-muted line-through">
                             {formatINR(heroProduct.mrpPrice)}
                           </span>
                         )}
                       </div>
-                      <p className="font-mono text-[11px] text-slate-400 mt-0.5">
+                      <p className="font-mono text-[11px] text-muted mt-0.5">
                         SKU: {heroProduct.sku} · Order Request Only
                       </p>
                     </div>
@@ -205,6 +224,7 @@ export function Hero({ content, heroProduct, onAddToCart }: HeroProps) {
                           type="button"
                           disabled={!heroProduct.inStock}
                           onClick={handleHeroAddToCart}
+                          data-testid="hero-add-to-cart"
                           className={`inline-flex items-center gap-1.5 rounded-control px-4 py-2.5 text-xs font-semibold transition-colors disabled:opacity-40 ${
                             justAdded
                               ? 'bg-emerald-500 text-[#071122]'
@@ -227,7 +247,8 @@ export function Hero({ content, heroProduct, onAddToCart }: HeroProps) {
 
                       <Link
                         href={justAdded ? '/cart' : `/products/${heroProduct.slug}`}
-                        className="inline-flex items-center gap-1 rounded-control border border-white/20 bg-white/10 hover:bg-white/20 px-3.5 py-2.5 text-xs font-semibold text-white transition-colors"
+                        data-testid="hero-view-specs"
+                        className="inline-flex items-center gap-1 rounded-control border border-subtle bg-panel hover:border-accent dark:border-white/20 dark:bg-white/10 dark:hover:bg-white/20 px-3.5 py-2.5 text-xs font-semibold text-fg dark:text-white transition-colors"
                       >
                         <span>{justAdded ? 'Order Request' : 'View Specs'}</span>
                         <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
