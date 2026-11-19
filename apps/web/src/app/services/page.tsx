@@ -97,7 +97,7 @@ function ServicesAndRepairContent() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
-      {/* Header */}
+      {/* Header & Quick Repair Navigation */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-subtle pb-6">
         <div>
           <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
@@ -111,24 +111,33 @@ function ServicesAndRepairContent() {
           </p>
         </div>
 
-        <a
-          href="#book-repair"
-          className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 transition shrink-0"
-        >
-          <Wrench className="h-4 w-4" />
-          <span>Book a Repair Request</span>
-        </a>
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <a
+            href="#book-repair"
+            data-testid="jump-to-book-repair"
+            className="inline-flex items-center gap-2 rounded-control bg-brand-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 transition-colors"
+          >
+            <Wrench className="h-4 w-4" aria-hidden="true" />
+            <span>Book a Repair Request</span>
+          </a>
+          <Link
+            href="/account/repairs"
+            className="inline-flex items-center gap-2 rounded-control border border-subtle bg-panel px-4 py-2.5 text-xs font-semibold text-fg hover:border-accent transition-colors"
+          >
+            <span>Track Existing Repair</span>
+          </Link>
+        </div>
       </div>
 
-      {/* Category Filter Pills */}
+      {/* Category Filter Tabs */}
       <div className="flex flex-wrap items-center gap-2">
         <button
           type="button"
           onClick={() => setSelectedCategory('')}
-          className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
+          className={`rounded-control px-3.5 py-2 text-xs font-semibold transition-colors ${
             selectedCategory === ''
-              ? 'bg-brand-600 text-white shadow-sm'
-              : 'glass-pill text-fg hover:border-accent'
+              ? 'bg-brand-600 text-white'
+              : 'border border-subtle bg-panel text-fg hover:border-accent'
           }`}
         >
           All Hardware Services
@@ -138,10 +147,10 @@ function ServicesAndRepairContent() {
             type="button"
             key={cat.id}
             onClick={() => setSelectedCategory(cat.slug)}
-            className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
+            className={`rounded-control px-3.5 py-2 text-xs font-semibold transition-colors ${
               selectedCategory === cat.slug
-                ? 'bg-brand-600 text-white shadow-sm'
-                : 'glass-pill text-fg hover:border-accent'
+                ? 'bg-brand-600 text-white'
+                : 'border border-subtle bg-panel text-fg hover:border-accent'
             }`}
           >
             {cat.name}
@@ -151,26 +160,26 @@ function ServicesAndRepairContent() {
 
       {/* Services Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-56 rounded-2xl bg-panel/60 animate-pulse" />
+            <div key={i} className="h-56 rounded-card bg-panel animate-pulse border border-subtle" />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map((svc) => (
             <article
               key={svc.id}
-              className="glass-card rounded-2xl p-6 flex flex-col justify-between hover:-translate-y-1 hover:border-brand-600 dark:hover:border-electric hover:shadow-card transition-all duration-300"
+              className="surface-card p-6 flex flex-col justify-between hover:border-accent hover:shadow-card transition-all duration-200"
             >
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="rounded-full bg-blue-50 dark:bg-brand-600/20 px-3 py-1 font-semibold text-brand-700 dark:text-electric">
+                <div className="flex items-center justify-between text-xs gap-2">
+                  <span className="rounded-md bg-blue-50 dark:bg-brand-600/20 border border-blue-200/80 dark:border-electric/30 px-2.5 py-1 font-semibold text-brand-700 dark:text-electric">
                     {svc.category?.name}
                   </span>
                   {svc.estimatedTurnaround && (
-                    <span className="text-muted flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5" /> {svc.estimatedTurnaround}
+                    <span className="text-muted flex items-center gap-1 font-mono text-[11px]">
+                      <Clock className="h-3.5 w-3.5 text-accent" aria-hidden="true" /> {svc.estimatedTurnaround}
                     </span>
                   )}
                 </div>
@@ -201,8 +210,8 @@ function ServicesAndRepairContent() {
                     </span>
                   </div>
                   {svc.warrantyNote && (
-                    <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
-                      <ShieldCheck className="h-3.5 w-3.5 inline mr-0.5" />
+                    <span className="text-[11px] text-emerald-700 dark:text-emerald-400 font-medium">
+                      <ShieldCheck className="h-3.5 w-3.5 inline mr-0.5" aria-hidden="true" />
                       {svc.warrantyNote}
                     </span>
                   )}
@@ -212,7 +221,7 @@ function ServicesAndRepairContent() {
                   <a
                     href="#book-repair"
                     onClick={() => setServiceId(svc.id)}
-                    className="flex-1 text-center rounded-full bg-brand-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-brand-700 transition"
+                    className="flex-1 text-center rounded-control bg-brand-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-brand-700 transition-colors"
                   >
                     Select &amp; Book Repair
                   </a>
@@ -223,10 +232,10 @@ function ServicesAndRepairContent() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`WhatsApp enquiry for ${svc.title}`}
-                    className="inline-flex items-center justify-center rounded-full bg-emerald-600 p-2 text-white hover:bg-emerald-500 transition"
+                    className="inline-flex items-center justify-center rounded-control bg-emerald-600 p-2 text-white hover:bg-emerald-500 transition-colors"
                     title="WhatsApp Service Enquiry"
                   >
-                    <MessageCircle className="h-4 w-4" />
+                    <MessageCircle className="h-4 w-4" aria-hidden="true" />
                   </a>
                 </div>
               </div>
@@ -238,7 +247,7 @@ function ServicesAndRepairContent() {
       {/* Repair Booking Form Section */}
       <section
         id="book-repair"
-        className="glass-card rounded-3xl p-6 sm:p-10"
+        className="glass-stage rounded-card p-6 sm:p-10"
       >
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="space-y-1">
