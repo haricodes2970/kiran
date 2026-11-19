@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -12,19 +12,24 @@ import {
   X,
   LogOut,
   ArrowUpRight,
-  Sun,
-  Moon,
 } from 'lucide-react';
 import { useApp } from '@/context/app-context';
-import { useTheme } from '@/context/theme-context';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout, cartCount } = useApp();
-  const { theme, toggleTheme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const isAdmin = Boolean(user?.roles?.includes('ADMIN'));
 
@@ -51,7 +56,11 @@ export function Navbar() {
     <header className="sticky top-0 z-40 px-3 sm:px-6 pt-3 pb-2 pointer-events-none">
       <div className="max-w-7xl mx-auto space-y-2 pointer-events-auto">
         {/* Selective Liquid-Glass Floating Bar */}
-        <div className="glass-nav rounded-2xl px-3 sm:px-4 xl:px-5 h-16 flex items-center justify-between gap-2 sm:gap-3">
+        <div
+          className={`glass-nav rounded-2xl px-3 sm:px-4 xl:px-5 h-16 flex items-center justify-between gap-2 sm:gap-3 transition-shadow duration-300 ${
+            scrolled ? 'shadow-glass' : ''
+          }`}
+        >
           {/* Separated Brand Mark (mobile + desktop) + Wordmark (sm+ desktop) */}
           <Link
             href="/"
@@ -121,19 +130,7 @@ export function Navbar() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={toggleTheme}
-              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-              title={theme === 'dark' ? 'Light theme' : 'Dark theme'}
-              className="glass-pill inline-flex items-center justify-center rounded-full p-2 text-ink dark:text-slate-100 hover:border-brand-600 dark:hover:border-electric transition"
-            >
-              {theme === 'dark' ? (
-                <Sun className="h-4 w-4 text-amber-400" />
-              ) : (
-                <Moon className="h-4 w-4 text-brand-600" />
-              )}
-            </button>
+            <ThemeToggle />
 
             {isAdmin && (
               <Link

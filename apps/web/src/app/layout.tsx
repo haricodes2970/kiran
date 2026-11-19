@@ -36,6 +36,8 @@ export const metadata: Metadata = {
   },
 };
 
+const THEME_INIT_SCRIPT = `(function(){try{if(location.pathname.startsWith('/admin')){document.documentElement.classList.remove('dark');return;}var t=localStorage.getItem('ki_theme_v1');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: {
@@ -44,8 +46,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="min-h-screen">
         <AppProvider>
           <ThemeProvider>
