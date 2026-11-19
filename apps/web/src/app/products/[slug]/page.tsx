@@ -417,7 +417,7 @@ export default function ProductDetailPage() {
       {/* Compact Sticky Mobile Purchase Bar */}
       <div
         data-testid="mobile-buy-bar"
-        className="lg:hidden fixed bottom-0 inset-x-0 z-30 glass-nav border-t border-subtle px-4 py-3 flex items-center justify-between gap-3"
+        className="lg:hidden fixed bottom-0 inset-x-0 z-50 glass-nav border-t border-subtle px-4 py-3 flex items-center justify-between gap-3"
       >
         <div className="min-w-0">
           <p className="font-display text-lg font-bold text-fg leading-none">
