@@ -23,7 +23,7 @@ html.dark {
   --brand: #60a5fa;
   --highlight: #93c5fd;
   --amber: #fbbf24;
-  --border-subtle: rgba(96, 165, 250, 0.25);
+  --border-subtle: rgba(96, 165, 250, 0.24);
 }
 
 @layer base {
@@ -34,6 +34,7 @@ html.dark {
   body {
     background-color: var(--bg-page);
     color: var(--text-primary);
+    caret-color: var(--brand);
     @apply font-sans antialiased selection:bg-blue-600 selection:text-white;
   }
 
@@ -41,7 +42,12 @@ html.dark {
   h2,
   h3,
   h4 {
-    @apply font-display tracking-tight;
+    @apply font-display;
+    letter-spacing: -0.025em;
+  }
+
+  a {
+    text-underline-offset: 3px;
   }
 
   :focus-visible {
@@ -51,26 +57,31 @@ html.dark {
 }
 
 @layer utilities {
-  /* Liquid Glass — Frosted Ice (Light) & Illuminated Deep-Blue (Dark) */
+  /* Crisp architectural surface for product, category, service, and account cards */
+  .surface-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+  }
+
+  /* Selective Liquid Glass — reserved for navigation, search, sticky filters, modals & floating controls */
   .glass-nav {
     background: rgba(255, 255, 255, 0.94);
     border: 1px solid rgba(147, 197, 253, 0.55);
-    box-shadow: 0 14px 36px -12px rgba(11, 25, 48, 0.16),
+    box-shadow: 0 12px 32px -12px rgba(11, 25, 48, 0.14),
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
   }
 
   .glass-card {
     background: rgba(255, 255, 255, 0.94);
-    border: 1px solid rgba(147, 197, 253, 0.48);
-    box-shadow: 0 8px 28px -12px rgba(11, 25, 48, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--border-subtle);
   }
 
   .glass-filter,
   .glass-modal {
     background: rgba(244, 248, 255, 0.95);
     border: 1px solid rgba(147, 197, 253, 0.55);
-    box-shadow: 0 14px 38px -14px rgba(11, 25, 48, 0.16),
+    box-shadow: 0 14px 34px -14px rgba(11, 25, 48, 0.14),
       inset 0 1px 0 rgba(255, 255, 255, 0.88);
   }
 
@@ -81,7 +92,7 @@ html.dark {
 
   .glass-search,
   .glass-input {
-    background: rgba(255, 255, 255, 0.92);
+    background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
     color: var(--text-primary);
   }
@@ -94,65 +105,52 @@ html.dark {
 
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
     .glass-nav {
-      background: rgba(255, 255, 255, 0.68);
+      background: rgba(255, 255, 255, 0.72);
       backdrop-filter: blur(20px) saturate(165%);
       -webkit-backdrop-filter: blur(20px) saturate(165%);
     }
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.66);
-      backdrop-filter: blur(14px) saturate(150%);
-      -webkit-backdrop-filter: blur(14px) saturate(150%);
-    }
-
     .glass-filter,
     .glass-modal {
-      background: rgba(244, 248, 255, 0.74);
-      backdrop-filter: blur(18px) saturate(160%);
-      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      background: rgba(244, 248, 255, 0.76);
+      backdrop-filter: blur(16px) saturate(155%);
+      -webkit-backdrop-filter: blur(16px) saturate(155%);
     }
 
     .glass-pill {
-      background: rgba(255, 255, 255, 0.68);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
-    .glass-search {
       background: rgba(255, 255, 255, 0.72);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
 
-    html.dark .glass-nav {
-      background: rgba(11, 25, 48, 0.72);
-      border-color: rgba(96, 165, 250, 0.28);
-      box-shadow: 0 16px 40px -12px rgba(2, 8, 20, 0.72),
-        inset 0 1px 0 rgba(147, 197, 253, 0.16);
+    .glass-search {
+      background: rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
-    html.dark .glass-card {
-      background: rgba(18, 36, 62, 0.66);
-      border-color: rgba(96, 165, 250, 0.24);
-      box-shadow: 0 12px 32px -12px rgba(2, 8, 20, 0.58),
-        inset 0 1px 0 rgba(147, 197, 253, 0.14);
+    html.dark .glass-nav {
+      background: rgba(11, 25, 48, 0.76);
+      border-color: rgba(96, 165, 250, 0.28);
+      box-shadow: 0 16px 38px -12px rgba(2, 8, 20, 0.68),
+        inset 0 1px 0 rgba(147, 197, 253, 0.16);
     }
 
     html.dark .glass-filter,
     html.dark .glass-modal {
-      background: rgba(23, 43, 73, 0.76);
+      background: rgba(23, 43, 73, 0.78);
       border-color: rgba(96, 165, 250, 0.28);
-      box-shadow: 0 16px 40px -12px rgba(2, 8, 20, 0.68),
+      box-shadow: 0 16px 38px -12px rgba(2, 8, 20, 0.64),
         inset 0 1px 0 rgba(147, 197, 253, 0.14);
     }
 
     html.dark .glass-pill {
-      background: rgba(18, 36, 62, 0.72);
+      background: rgba(18, 36, 62, 0.74);
       border-color: rgba(96, 165, 250, 0.26);
     }
 
     html.dark .glass-search {
-      background: rgba(18, 36, 62, 0.74);
+      background: rgba(18, 36, 62, 0.76);
       border-color: rgba(96, 165, 250, 0.3);
     }
   }
@@ -163,8 +161,8 @@ html.dark {
   }
 
   html.dark .glass-card {
-    background: rgba(18, 36, 62, 0.92);
-    border-color: rgba(96, 165, 250, 0.24);
+    background: rgba(18, 36, 62, 0.94);
+    border-color: var(--border-subtle);
   }
 
   html.dark .glass-filter,
@@ -180,22 +178,17 @@ html.dark {
 
   html.dark .glass-search,
   html.dark .glass-input {
-    background: rgba(23, 43, 73, 0.92);
+    background: var(--bg-surface-2);
     border-color: rgba(96, 165, 250, 0.3);
     color: var(--text-primary);
-  }
-
-  .tech-grid-bg {
-    background-image: radial-gradient(rgba(37, 99, 235, 0.14) 1px, transparent 1px);
-    background-size: 22px 22px;
   }
 }
 
 .reveal-base {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(10px);
+  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .reveal-visible {

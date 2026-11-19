@@ -1,13 +1,16 @@
 import React from 'react';
 
-interface GlassContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SurfaceContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-export function GlassCard({ children, className = '', ...rest }: GlassContainerProps) {
+/**
+ * Crisp architectural card surface (12px radius, single hairline elevation) for product & content grids.
+ */
+export function SurfaceCard({ children, className = '', ...rest }: SurfaceContainerProps) {
   return (
     <div
-      className={`glass-card rounded-2xl transition-all duration-300 ${className}`}
+      className={`surface-card transition-colors duration-200 ${className}`}
       {...rest}
     >
       {children}
@@ -15,17 +18,28 @@ export function GlassCard({ children, className = '', ...rest }: GlassContainerP
   );
 }
 
-export function GlassFilterBar({ children, className = '', ...rest }: GlassContainerProps) {
+export function GlassCard({ children, className = '', ...rest }: SurfaceContainerProps) {
   return (
-    <div className={`glass-filter rounded-2xl p-4 sm:p-5 ${className}`} {...rest}>
+    <div
+      className={`glass-card rounded-card transition-colors duration-200 ${className}`}
+      {...rest}
+    >
       {children}
     </div>
   );
 }
 
-export function GlassModal({ children, className = '', ...rest }: GlassContainerProps) {
+export function GlassFilterBar({ children, className = '', ...rest }: SurfaceContainerProps) {
   return (
-    <div className={`glass-modal rounded-3xl p-6 sm:p-8 ${className}`} {...rest}>
+    <div className={`glass-filter rounded-card p-4 sm:p-5 ${className}`} {...rest}>
+      {children}
+    </div>
+  );
+}
+
+export function GlassModal({ children, className = '', ...rest }: SurfaceContainerProps) {
+  return (
+    <div className={`glass-modal rounded-2xl p-6 sm:p-8 ${className}`} {...rest}>
       {children}
     </div>
   );

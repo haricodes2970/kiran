@@ -41,24 +41,28 @@ module.exports = {
         display: ['var(--font-space-grotesk)', 'Space Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ['var(--font-jetbrains-mono)', 'JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
+      borderRadius: {
+        card: '12px',
+        control: '10px',
+      },
       boxShadow: {
-        glass: '0 12px 36px -12px rgba(11, 25, 48, 0.18), 0 1px 2px rgba(11, 25, 48, 0.06)',
-        card: '0 2px 6px rgba(11, 25, 48, 0.06), 0 16px 32px -14px rgba(37, 99, 235, 0.16)',
+        glass: '0 12px 32px -12px rgba(11, 25, 48, 0.16), 0 1px 2px rgba(11, 25, 48, 0.05)',
+        elevated: '0 10px 24px -12px rgba(20, 35, 59, 0.14)',
       },
       keyframes: {
         'fade-up': {
-          '0%': { opacity: '0', transform: 'translateY(14px)' },
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'badge-pop': {
           '0%': { transform: 'scale(0.85)' },
-          '50%': { transform: 'scale(1.18)' },
+          '50%': { transform: 'scale(1.15)' },
           '100%': { transform: 'scale(1)' },
         },
       },
       animation: {
-        'fade-up': 'fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards',
-        'badge-pop': 'badge-pop 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
+        'fade-up': 'fade-up 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+        'badge-pop': 'badge-pop 0.28s cubic-bezier(0.22, 1, 0.36, 1)',
       },
     },
   },
