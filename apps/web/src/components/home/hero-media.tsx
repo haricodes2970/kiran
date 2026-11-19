@@ -86,14 +86,8 @@ export function HeroMedia({
   return (
     <div
       ref={containerRef}
-      className="relative rounded-3xl border border-line bg-surface/90 p-5 sm:p-7 overflow-hidden shadow-card"
+      className="relative rounded-card border border-subtle bg-panel p-5 sm:p-7 overflow-hidden shadow-card"
     >
-      {/* Subtle geometric dot matrix & electric glow */}
-      <div className="absolute inset-0 tech-grid-bg opacity-70 pointer-events-none" aria-hidden="true" />
-      <div
-        className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-electric/20 blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
 
       {videoSrc && allowVideo && inView ? (
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-line bg-ink">

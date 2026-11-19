@@ -1,9 +1,11 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight, Laptop, ShoppingCart } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Check, Laptop, ShoppingCart } from 'lucide-react';
 import { formatINR } from '@/lib/api';
 import { HeroMedia } from '@/components/home/hero-media';
-import { ProductCardItem } from '@/components/home/featured-products';
+import { ProductCardItem, ProductSpecItem } from '@/components/home/featured-products';
 
 interface HeroContent {
   badge?: string;
@@ -17,149 +19,220 @@ interface HeroProps {
   onAddToCart?: (product: ProductCardItem) => void;
 }
 
+const PRIORITY_SPEC_KEYS = ['Processor', 'Memory', 'Storage', 'Graphics', 'Display'];
+
+function pickHeroSpecs(specs?: ProductSpecItem[]): ProductSpecItem[] {
+  if (!Array.isArray(specs) || specs.length === 0) return [];
+  const picked: ProductSpecItem[] = [];
+  for (const key of PRIORITY_SPEC_KEYS) {
+    const match = specs.find((s) => s.key.toLowerCase() === key.toLowerCase());
+    if (match && match.value) {
+      picked.push(match);
+    }
+    if (picked.length === 4) break;
+  }
+  if (picked.length === 0) {
+    return specs.slice(0, 4);
+  }
+  return picked;
+}
+
 export function Hero({ content, heroProduct, onAddToCart }: HeroProps) {
-  const badge = content?.badge?.trim() || 'Hardware • Certified Refurbished • IT Services';
+  const [justAdded, setJustAdded] = useState(false);
+
   const headline = content?.headline?.trim() || 'Technology That Moves You Forward.';
   const subheadline =
     content?.subheadline?.trim() ||
-    'Discover quality laptops, computer hardware and professional technology services — all in one place.';
+    'Laptops, components, certified refurbished systems and professional IT services with transparent INR pricing.';
 
   const hasProductVisual = Boolean(heroProduct?.images?.[0]?.url);
+  const heroSpecs = heroProduct ? pickHeroSpecs(heroProduct.specifications) : [];
+  const showMrp =
+    heroProduct?.mrpPrice &&
+    Number(heroProduct.mrpPrice) > Number(heroProduct.sellingPrice);
+
+  const handleHeroAddToCart = () => {
+    if (!heroProduct || !onAddToCart || !heroProduct.inStock) return;
+    onAddToCart(heroProduct);
+    setJustAdded(true);
+    window.setTimeout(() => setJustAdded(false), 2600);
+  };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#EAF3FF] via-[#F2F7FF] to-[#EAF3FF] dark:from-[#0B1930] dark:via-[#0E203D] dark:to-[#0B1930] pt-6 pb-16 sm:pt-10 sm:pb-24 border-b border-line dark:border-slate-800">
-      <div
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(37,99,235,0.14),transparent_58%)] dark:bg-[radial-gradient(ellipse_at_top_right,rgba(96,165,250,0.18),transparent_58%)] pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 tech-grid-bg opacity-55 dark:opacity-35 pointer-events-none"
-        aria-hidden="true"
-      />
+    <section className="relative bg-page pt-8 pb-14 sm:pt-12 sm:pb-20 border-b border-subtle">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          {/* Left Editorial Column */}
+          <div className="lg:col-span-5 space-y-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent font-semibold">
+              Kiran&apos;s Infotech · Hardware &amp; IT Services
+            </p>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Left Editorial Copy & Actions */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="glass-pill inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium text-ink dark:text-slate-100 shadow-sm">
-              <span className="h-2 w-2 rounded-full bg-brand-600 dark:bg-electric" aria-hidden="true" />
-              <span className="font-mono text-[11px] tracking-wide text-slate-700 dark:text-slate-200">
-                {badge}
-              </span>
-            </div>
-
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.75rem] font-bold tracking-tight text-ink dark:text-white leading-[1.04]">
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.35rem] xl:text-[3.6rem] font-bold tracking-tight text-fg leading-[1.04]">
               {headline}
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 max-w-xl leading-relaxed">
+            <p className="text-base sm:text-[17px] text-muted max-w-lg leading-relaxed">
               {subheadline}
             </p>
 
-            <div className="flex flex-wrap items-center gap-3.5 pt-2">
+            <div className="flex flex-wrap items-center gap-3 pt-1">
               <Link
                 href="/products"
-                className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3.5 text-sm font-semibold text-white hover:bg-brand-700 transition shadow-sm"
+                className="inline-flex items-center gap-2 rounded-control bg-brand-600 hover:bg-brand-700 px-5 py-3 text-sm font-semibold text-white transition-colors"
               >
                 <span>Explore Hardware</span>
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
 
               <Link
                 href="/refurbished"
-                className="glass-pill inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-ink dark:text-white hover:border-brand-600 dark:hover:border-electric transition"
+                className="inline-flex items-center gap-2 rounded-control border border-subtle bg-panel hover:border-accent px-5 py-3 text-sm font-semibold text-fg transition-colors"
               >
-                <Laptop className="h-4 w-4 text-brand-600 dark:text-electric" />
+                <Laptop className="h-4 w-4 text-accent" aria-hidden="true" />
                 <span>Certified Refurbished</span>
               </Link>
             </div>
 
-            <div className="pt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-mono text-slate-600 dark:text-slate-400">
-              <span>ORDER REQUEST CHECKOUT</span>
-              <span aria-hidden="true">•</span>
-              <span>TRANSPARENT INR PRICING</span>
-              <span aria-hidden="true">•</span>
+            <div className="pt-4 border-t border-subtle flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-mono text-muted">
+              <span className="whitespace-nowrap">ORDER REQUEST CHECKOUT</span>
+              <span className="whitespace-nowrap">INR (₹) PRICING</span>
               <Link
                 href="/services#book-repair"
-                className="text-brand-600 dark:text-electric font-semibold hover:underline"
+                className="text-accent font-semibold hover:underline whitespace-nowrap"
               >
-                BOOK REPAIR OR UPGRADE
+                BOOK REPAIR OR UPGRADE →
               </Link>
             </div>
           </div>
 
-          {/* Right Real Laptop/Desktop Showcase Stage */}
-          <div className="lg:col-span-6">
+          {/* Right Art-Directed Hardware Stage */}
+          <div className="lg:col-span-7">
             {hasProductVisual && heroProduct ? (
-              <div className="relative rounded-3xl border border-blue-200/80 dark:border-blue-400/25 bg-[#0B1930] text-white p-4 sm:p-6 shadow-glass overflow-hidden">
-                <div
-                  className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-brand-600/35 blur-3xl pointer-events-none"
-                  aria-hidden="true"
-                />
-
-                <div className="relative flex items-center justify-between gap-2 pb-4">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-electric" aria-hidden="true" />
-                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-300">
-                      Featured System // {heroProduct.brand}
-                    </span>
-                  </div>
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase ${
-                      heroProduct.inStock
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/30'
-                        : 'bg-slate-700 text-slate-300'
-                    }`}
-                  >
-                    {heroProduct.inStock
-                      ? `In Stock (${heroProduct.availableQuantity})`
-                      : 'Out of Stock'}
-                  </span>
-                </div>
-
+              <div className="rounded-card border border-blue-950/15 dark:border-blue-400/20 bg-[#0B1930] dark:bg-[#071122] text-white overflow-hidden shadow-elevated">
+                {/* Seamless Full-Bleed Product Photography (no white cutout box) */}
                 <Link
                   href={`/products/${heroProduct.slug}`}
-                  className="block relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-white border border-white/15 group"
+                  className="block relative aspect-[16/10] w-full overflow-hidden group bg-[#071122]"
                 >
                   <img
                     src={heroProduct.images![0].url}
                     alt={heroProduct.images![0].altText || heroProduct.name}
-                    className="h-full w-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                    className="h-full w-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                   />
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-[#0B1930] via-[#0B1930]/20 to-black/25 dark:from-[#071122] dark:via-[#071122]/25"
+                    aria-hidden="true"
+                  />
+
+                  {/* Top overlay metadata */}
+                  <div className="absolute top-3.5 inset-x-3.5 sm:inset-x-4 flex items-center justify-between gap-2">
+                    <span className="inline-flex items-center truncate max-w-[64%] rounded-md bg-[#071122]/80 backdrop-blur-md border border-white/15 px-2.5 py-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-100">
+                      {heroProduct.brand}
+                      {heroProduct.model ? ` · ${heroProduct.model}` : ''}
+                    </span>
+
+                    <span
+                      className={`shrink-0 whitespace-nowrap rounded-md px-2.5 py-1 font-mono text-[10px] font-semibold uppercase backdrop-blur-md border ${
+                        heroProduct.inStock
+                          ? 'bg-emerald-950/80 text-emerald-300 border-emerald-400/30'
+                          : 'bg-slate-900/80 text-slate-300 border-white/15'
+                      }`}
+                    >
+                      {heroProduct.inStock
+                        ? `In Stock · ${heroProduct.availableQuantity}`
+                        : 'Out of Stock'}
+                    </span>
+                  </div>
                 </Link>
 
-                <div className="relative pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="min-w-0">
+                {/* Hardware Details, Real Specs & Purchase Controls */}
+                <div className="p-5 sm:p-6 space-y-4">
+                  <div className="space-y-1.5">
                     <Link
                       href={`/products/${heroProduct.slug}`}
-                      className="block font-display font-semibold text-base sm:text-lg text-white hover:text-electric truncate transition-colors"
+                      className="block font-display text-lg sm:text-xl font-bold text-white hover:text-electric transition-colors leading-snug"
                     >
                       {heroProduct.name}
                     </Link>
-                    <p className="font-mono text-xs text-slate-400 mt-0.5">
-                      SKU: {heroProduct.sku} • {formatINR(heroProduct.sellingPrice)}
-                    </p>
+                    {heroProduct.shortSummary && (
+                      <p className="text-xs sm:text-sm text-slate-300 line-clamp-2">
+                        {heroProduct.shortSummary}
+                      </p>
+                    )}
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
-                    {onAddToCart && (
-                      <button
-                        type="button"
-                        disabled={!heroProduct.inStock}
-                        onClick={() => onAddToCart(heroProduct)}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold text-ink hover:bg-amber-400 disabled:opacity-40 transition"
+                  {/* Real Specifications (only rendered when backed by catalogue data) */}
+                  {heroSpecs.length > 0 && (
+                    <dl className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {heroSpecs.map((spec) => (
+                        <div
+                          key={spec.key}
+                          className="rounded-lg border border-white/10 bg-white/[0.04] px-2.5 py-2"
+                        >
+                          <dt className="font-mono text-[10px] uppercase tracking-wider text-slate-400">
+                            {spec.key}
+                          </dt>
+                          <dd className="text-xs font-medium text-slate-100 truncate mt-0.5" title={spec.value}>
+                            {spec.value}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+
+                  {/* Pricing & Warm Amber Shopping Actions */}
+                  <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                      <div className="flex items-baseline gap-2.5">
+                        <span className="font-display text-xl sm:text-2xl font-bold text-white">
+                          {formatINR(heroProduct.sellingPrice)}
+                        </span>
+                        {showMrp && (
+                          <span className="font-mono text-xs text-slate-400 line-through">
+                            {formatINR(heroProduct.mrpPrice)}
+                          </span>
+                        )}
+                      </div>
+                      <p className="font-mono text-[11px] text-slate-400 mt-0.5">
+                        SKU: {heroProduct.sku} · Order Request Only
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      {onAddToCart && (
+                        <button
+                          type="button"
+                          disabled={!heroProduct.inStock}
+                          onClick={handleHeroAddToCart}
+                          className={`inline-flex items-center gap-1.5 rounded-control px-4 py-2.5 text-xs font-semibold transition-colors disabled:opacity-40 ${
+                            justAdded
+                              ? 'bg-emerald-500 text-[#071122]'
+                              : 'bg-amber-500 hover:bg-amber-400 text-[#0B1930]'
+                          }`}
+                        >
+                          {justAdded ? (
+                            <>
+                              <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                              <span>Added to Cart</span>
+                            </>
+                          ) : (
+                            <>
+                              <ShoppingCart className="h-3.5 w-3.5" aria-hidden="true" />
+                              <span>Add to Cart</span>
+                            </>
+                          )}
+                        </button>
+                      )}
+
+                      <Link
+                        href={justAdded ? '/cart' : `/products/${heroProduct.slug}`}
+                        className="inline-flex items-center gap-1 rounded-control border border-white/20 bg-white/10 hover:bg-white/20 px-3.5 py-2.5 text-xs font-semibold text-white transition-colors"
                       >
-                        <ShoppingCart className="h-3.5 w-3.5" />
-                        <span>Add to Cart</span>
-                      </button>
-                    )}
-                    <Link
-                      href={`/products/${heroProduct.slug}`}
-                      className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-3.5 py-2 text-xs font-semibold text-white hover:bg-white/20 transition"
-                    >
-                      <span>Inspect</span>
-                      <ArrowUpRight className="h-3.5 w-3.5" />
-                    </Link>
+                        <span>{justAdded ? 'Order Request' : 'View Specs'}</span>
+                        <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -15,7 +15,7 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
       aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
       aria-pressed={isDark}
       title={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
-      className={`glass-pill group relative inline-flex h-9 w-9 items-center justify-center rounded-full text-fg transition-all duration-300 hover:border-brand-600 dark:hover:border-electric hover:shadow-[0_0_16px_rgba(96,165,250,0.35)] ${className}`}
+      className={`glass-pill group relative inline-flex h-9 w-9 items-center justify-center rounded-control text-fg transition-colors duration-200 hover:border-accent ${className}`}
     >
       <Sun
         className={`h-4 w-4 text-amber-400 transition-all duration-300 motion-reduce:transition-none ${

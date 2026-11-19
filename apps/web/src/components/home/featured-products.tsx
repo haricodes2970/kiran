@@ -6,12 +6,19 @@ import { SectionHeading } from '@/components/ui/section-heading';
 import { Reveal } from '@/components/ui/reveal';
 import { AddToCartButton } from '@/components/ui/add-to-cart-button';
 
+export interface ProductSpecItem {
+  key: string;
+  value: string;
+  groupName?: string | null;
+}
+
 export interface ProductCardItem {
   id: string;
   name: string;
   slug: string;
   sku: string;
   brand: string;
+  model?: string | null;
   shortSummary?: string | null;
   description?: string | null;
   sellingPrice: number | string;
@@ -20,6 +27,7 @@ export interface ProductCardItem {
   availableQuantity: number;
   isDemo?: boolean;
   images?: Array<{ url: string; altText?: string | null }>;
+  specifications?: ProductSpecItem[];
 }
 
 interface FeaturedProductsProps {
