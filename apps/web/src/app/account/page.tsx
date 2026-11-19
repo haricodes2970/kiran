@@ -3,14 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-  ClipboardList,
-  Laptop,
-  MessageSquare,
-  Package,
-  User,
-  Wrench,
-} from 'lucide-react';
+import { Laptop, MessageSquare, Package, Wrench } from 'lucide-react';
 import { apiFetch, formatINR } from '@/lib/api';
 import { useApp } from '@/context/app-context';
 
@@ -49,21 +42,21 @@ export default function CustomerAccountOverviewPage() {
   }, [user]);
 
   if (loadingAuth || !user) {
-    return <div className="p-12 text-center text-sm">Loading your account...</div>;
+    return <div className="p-12 text-center text-sm text-muted">Loading your account...</div>;
   }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header & Navigation */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-subtle pb-5">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-blue-600">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
             Customer Portal
           </p>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-fg mt-1">
             Welcome, {user.name}
           </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-muted mt-0.5">
             {user.email} {user.phone ? `• ${user.phone}` : ''}
           </p>
         </div>
@@ -71,25 +64,25 @@ export default function CustomerAccountOverviewPage() {
         <div className="flex flex-wrap gap-2 text-xs">
           <Link
             href="/account/profile"
-            className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 font-semibold text-slate-700 hover:bg-slate-50"
+            className="glass-pill rounded-full px-4 py-2 font-semibold text-fg hover:border-accent transition"
           >
             Profile &amp; Addresses
           </Link>
           <Link
             href="/account/orders"
-            className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 font-semibold text-slate-700 hover:bg-slate-50"
+            className="glass-pill rounded-full px-4 py-2 font-semibold text-fg hover:border-accent transition"
           >
             My Orders ({orders.length})
           </Link>
           <Link
             href="/account/repairs"
-            className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 font-semibold text-slate-700 hover:bg-slate-50"
+            className="glass-pill rounded-full px-4 py-2 font-semibold text-fg hover:border-accent transition"
           >
             Repair Tracking ({repairs.length})
           </Link>
           <Link
             href="/account/enquiries"
-            className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 font-semibold text-slate-700 hover:bg-slate-50"
+            className="glass-pill rounded-full px-4 py-2 font-semibold text-fg hover:border-accent transition"
           >
             My Enquiries ({enquiries.length})
           </Link>
@@ -100,60 +93,60 @@ export default function CustomerAccountOverviewPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <Link
           href="/account/orders"
-          className="rounded-xl border border-slate-200 bg-white p-5 hover:border-blue-600 transition space-y-2"
+          className="glass-card rounded-2xl p-5 hover:border-accent transition space-y-2"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">Order Requests</span>
-            <Package className="h-5 w-5 text-blue-600" />
+            <span className="text-xs font-semibold text-muted">Order Requests</span>
+            <Package className="h-5 w-5 text-accent" />
           </div>
-          <p className="text-2xl font-bold text-slate-900">{orders.length}</p>
-          <p className="text-[11px] text-blue-600 font-medium">View order history →</p>
+          <p className="font-display text-2xl font-bold text-fg">{orders.length}</p>
+          <p className="text-[11px] text-accent font-medium">View order history →</p>
         </Link>
 
         <Link
           href="/account/repairs"
-          className="rounded-xl border border-slate-200 bg-white p-5 hover:border-blue-600 transition space-y-2"
+          className="glass-card rounded-2xl p-5 hover:border-accent transition space-y-2"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">
+            <span className="text-xs font-semibold text-muted">
               Repair Bookings
             </span>
-            <Wrench className="h-5 w-5 text-amber-600" />
+            <Wrench className="h-5 w-5 text-amber-500" />
           </div>
-          <p className="text-2xl font-bold text-slate-900">{repairs.length}</p>
-          <p className="text-[11px] text-blue-600 font-medium">
+          <p className="font-display text-2xl font-bold text-fg">{repairs.length}</p>
+          <p className="text-[11px] text-accent font-medium">
             Track status &amp; quotations →
           </p>
         </Link>
 
         <Link
           href="/account/enquiries"
-          className="rounded-xl border border-slate-200 bg-white p-5 hover:border-blue-600 transition space-y-2"
+          className="glass-card rounded-2xl p-5 hover:border-accent transition space-y-2"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">
+            <span className="text-xs font-semibold text-muted">
               Product Enquiries
             </span>
-            <MessageSquare className="h-5 w-5 text-emerald-600" />
+            <MessageSquare className="h-5 w-5 text-emerald-500" />
           </div>
-          <p className="text-2xl font-bold text-slate-900">{enquiries.length}</p>
-          <p className="text-[11px] text-blue-600 font-medium">
+          <p className="font-display text-2xl font-bold text-fg">{enquiries.length}</p>
+          <p className="text-[11px] text-accent font-medium">
             View responses &amp; status →
           </p>
         </Link>
 
         <Link
           href="/account/profile"
-          className="rounded-xl border border-slate-200 bg-white p-5 hover:border-blue-600 transition space-y-2"
+          className="glass-card rounded-2xl p-5 hover:border-accent transition space-y-2"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">
+            <span className="text-xs font-semibold text-muted">
               Used-Laptop Sell Requests
             </span>
-            <Laptop className="h-5 w-5 text-purple-600" />
+            <Laptop className="h-5 w-5 text-purple-500" />
           </div>
-          <p className="text-2xl font-bold text-slate-900">{sellRequests.length}</p>
-          <p className="text-[11px] text-blue-600 font-medium">
+          <p className="font-display text-2xl font-bold text-fg">{sellRequests.length}</p>
+          <p className="text-[11px] text-accent font-medium">
             Manage profile &amp; trade-ins →
           </p>
         </Link>
@@ -161,44 +154,43 @@ export default function CustomerAccountOverviewPage() {
 
       {/* Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Repairs */}
-        <div className="rounded-xl border border-slate-200 bg-white p-6 space-y-4">
+        <div className="glass-card rounded-2xl p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-slate-900">
+            <h2 className="font-display text-sm font-bold text-fg">
               Active Repair Bookings &amp; Quotations
             </h2>
             <Link
               href="/account/repairs"
-              className="text-xs font-semibold text-blue-600"
+              className="text-xs font-semibold text-accent hover:underline"
             >
               View All
             </Link>
           </div>
 
           {loading ? (
-            <p className="text-xs text-slate-400">Loading...</p>
+            <p className="text-xs text-muted">Loading...</p>
           ) : repairs.length === 0 ? (
-            <p className="text-xs text-slate-500">No repair bookings yet.</p>
+            <p className="text-xs text-muted">No repair bookings yet.</p>
           ) : (
             <div className="space-y-3">
               {repairs.slice(0, 3).map((rep) => (
                 <div
                   key={rep.id}
-                  className="rounded-lg border border-slate-100 bg-slate-50 p-3.5 text-xs space-y-1.5"
+                  className="rounded-xl border border-subtle bg-panel-2/75 p-3.5 text-xs space-y-1.5"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-mono font-bold text-slate-900">
+                    <span className="font-mono font-bold text-fg">
                       {rep.reference}
                     </span>
-                    <span className="rounded bg-blue-100 px-2 py-0.5 text-[11px] font-semibold text-blue-800">
+                    <span className="rounded-full bg-blue-500/15 px-2.5 py-0.5 text-[11px] font-semibold text-accent">
                       {rep.status}
                     </span>
                   </div>
-                  <p className="font-medium text-slate-800">
+                  <p className="font-medium text-fg">
                     {rep.brand} {rep.model} — {rep.issueCategory}
                   </p>
                   {rep.updates?.length > 0 && (
-                    <p className="text-slate-600">
+                    <p className="text-muted">
                       Latest: {rep.updates[rep.updates.length - 1].customerVisibleMessage}
                     </p>
                   )}
@@ -208,42 +200,41 @@ export default function CustomerAccountOverviewPage() {
           )}
         </div>
 
-        {/* Recent Orders */}
-        <div className="rounded-xl border border-slate-200 bg-white p-6 space-y-4">
+        <div className="glass-card rounded-2xl p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-slate-900">Recent Orders</h2>
+            <h2 className="font-display text-sm font-bold text-fg">Recent Orders</h2>
             <Link
               href="/account/orders"
-              className="text-xs font-semibold text-blue-600"
+              className="text-xs font-semibold text-accent hover:underline"
             >
               View All
             </Link>
           </div>
 
           {loading ? (
-            <p className="text-xs text-slate-400">Loading...</p>
+            <p className="text-xs text-muted">Loading...</p>
           ) : orders.length === 0 ? (
-            <p className="text-xs text-slate-500">No orders placed yet.</p>
+            <p className="text-xs text-muted">No orders placed yet.</p>
           ) : (
             <div className="space-y-3">
               {orders.slice(0, 3).map((ord) => (
                 <div
                   key={ord.id}
-                  className="rounded-lg border border-slate-100 bg-slate-50 p-3.5 text-xs flex items-center justify-between"
+                  className="rounded-xl border border-subtle bg-panel-2/75 p-3.5 text-xs flex items-center justify-between"
                 >
                   <div>
-                    <span className="font-mono font-bold text-slate-900 block">
+                    <span className="font-mono font-bold text-fg block">
                       {ord.reference}
                     </span>
-                    <span className="text-slate-600">
+                    <span className="text-muted">
                       {ord.items?.length || 0} item(s) • {ord.fulfilmentType}
                     </span>
                   </div>
                   <div className="text-right">
-                    <span className="font-bold text-slate-900 block">
+                    <span className="font-display font-bold text-fg block">
                       {formatINR(ord.totalAmount)}
                     </span>
-                    <span className="text-[11px] text-blue-700 font-semibold">
+                    <span className="text-[11px] text-accent font-semibold">
                       {ord.status}
                     </span>
                   </div>

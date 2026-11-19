@@ -42,22 +42,22 @@ export default function RegisterPage() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-12">
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="glass-card rounded-3xl p-6 sm:p-8 space-y-6">
         <div className="space-y-1 text-center">
-          <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white mx-auto mb-2">
+          <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-600 text-white mx-auto mb-2 shadow-sm">
             <UserPlus className="h-5 w-5" />
           </div>
-          <h1 className="text-xl font-bold text-slate-900">
+          <h1 className="font-display text-xl font-bold text-fg">
             Create Customer Account
           </h1>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted">
             Track hardware orders, submit product enquiries, and manage repair bookings.
           </p>
         </div>
 
         <form onSubmit={handleRegister} className="space-y-4 text-xs">
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               Full Name *
             </label>
             <input
@@ -67,12 +67,12 @@ export default function RegisterPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Rahul Sharma"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2.5"
+              className="glass-input w-full rounded-xl px-3.5 py-2.5"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               Email Address *
             </label>
             <input
@@ -81,12 +81,12 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="rahul@example.com"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2.5"
+              className="glass-input w-full rounded-xl px-3.5 py-2.5"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               Mobile Number (Optional)
             </label>
             <input
@@ -94,12 +94,12 @@ export default function RegisterPage() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="+91 98765 43210"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2.5"
+              className="glass-input w-full rounded-xl px-3.5 py-2.5"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               Password (Min 8 characters) *
             </label>
             <input
@@ -109,22 +109,22 @@ export default function RegisterPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="StrongPass@123"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2.5"
+              className="glass-input w-full rounded-xl px-3.5 py-2.5"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+            className="w-full rounded-full bg-brand-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 disabled:opacity-50 transition"
           >
             {loading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 
-        <div className="text-center text-xs pt-2 border-t border-slate-100">
-          <span className="text-slate-500">Already have an account? </span>
-          <Link href="/login" className="font-semibold text-blue-600 hover:underline">
+        <div className="text-center text-xs pt-3 border-t border-subtle">
+          <span className="text-muted">Already have an account? </span>
+          <Link href="/login" className="font-semibold text-accent hover:underline">
             Sign In
           </Link>
         </div>

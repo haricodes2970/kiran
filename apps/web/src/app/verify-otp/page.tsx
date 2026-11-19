@@ -56,13 +56,13 @@ export default function VerifyOtpPage() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-12">
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="glass-card rounded-3xl p-6 sm:p-8 space-y-6">
         <div className="space-y-1 text-center">
-          <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white mx-auto mb-2">
+          <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-600 text-white mx-auto mb-2 shadow-sm">
             <Smartphone className="h-5 w-5" />
           </div>
-          <h1 className="text-xl font-bold text-slate-900">Mobile OTP Sign In</h1>
-          <p className="text-xs text-slate-500">
+          <h1 className="font-display text-xl font-bold text-fg">Mobile OTP Sign In</h1>
+          <p className="text-xs text-muted">
             Passwordless customer authentication via mobile verification code.
           </p>
         </div>
@@ -70,7 +70,7 @@ export default function VerifyOtpPage() {
         {step === 'REQUEST' ? (
           <form onSubmit={handleRequestOtp} className="space-y-4 text-xs">
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-fg mb-1">
                 Mobile Phone Number
               </label>
               <input
@@ -79,13 +79,13 @@ export default function VerifyOtpPage() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+91 98201 00101"
-                className="w-full rounded-lg border border-slate-200 px-3 py-2.5"
+                className="glass-input w-full rounded-xl px-3.5 py-2.5"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-blue-700"
+              className="w-full rounded-full bg-brand-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 transition"
             >
               {loading ? 'Sending OTP...' : 'Send Verification Code'}
             </button>
@@ -93,12 +93,12 @@ export default function VerifyOtpPage() {
         ) : (
           <form onSubmit={handleVerifyOtp} className="space-y-4 text-xs">
             {demoHint && (
-              <div className="rounded-lg bg-amber-50 border border-amber-200 p-3 text-amber-800 font-semibold">
+              <div className="rounded-xl bg-amber-500/15 border border-amber-500/30 p-3 text-amber-800 dark:text-amber-200 font-semibold">
                 {demoHint}
               </div>
             )}
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-fg mb-1">
                 Enter 6-Digit OTP Code
               </label>
               <input
@@ -107,11 +107,11 @@ export default function VerifyOtpPage() {
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 placeholder="123456"
-                className="w-full rounded-lg border border-slate-200 px-3 py-2.5 font-mono text-base tracking-widest"
+                className="glass-input w-full rounded-xl px-3.5 py-2.5 font-mono text-base tracking-widest"
               />
             </div>
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-fg mb-1">
                 Your Name (If New Customer)
               </label>
               <input
@@ -119,21 +119,21 @@ export default function VerifyOtpPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Optional"
-                className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                className="glass-input w-full rounded-xl px-3.5 py-2.5"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-blue-700"
+              className="w-full rounded-full bg-brand-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 transition"
             >
               {loading ? 'Verifying...' : 'Verify & Sign In'}
             </button>
           </form>
         )}
 
-        <div className="text-center text-xs pt-2 border-t border-slate-100">
-          <Link href="/login" className="font-semibold text-slate-600 hover:text-blue-600">
+        <div className="text-center text-xs pt-3 border-t border-subtle">
+          <Link href="/login" className="font-semibold text-muted hover:text-accent transition-colors">
             Back to Email &amp; Password Login
           </Link>
         </div>

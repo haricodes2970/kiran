@@ -43,22 +43,22 @@ export default function LoginPage() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-12 space-y-6">
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-6">
+      <div className="glass-card rounded-3xl p-6 sm:p-8 space-y-6">
         <div className="space-y-1 text-center">
-          <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white mx-auto mb-2">
+          <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-600 text-white mx-auto mb-2 shadow-sm">
             <KeyRound className="h-5 w-5" />
           </div>
-          <h1 className="text-xl font-bold text-slate-900">
+          <h1 className="font-display text-xl font-bold text-fg">
             Sign In to Kiran&apos;s Infotech
           </h1>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted">
             Access your orders, repair tracking, quotations, or administration console.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               Email Address
             </label>
             <input
@@ -67,12 +67,12 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2.5"
+              className="glass-input w-full rounded-xl px-3.5 py-2.5"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               Password
             </label>
             <input
@@ -81,42 +81,42 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2.5"
+              className="glass-input w-full rounded-xl px-3.5 py-2.5"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+            className="w-full rounded-full bg-brand-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 disabled:opacity-50 transition"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
-        <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-100">
+        <div className="flex items-center justify-between text-xs pt-3 border-t border-subtle">
           <Link
             href="/verify-otp"
-            className="font-semibold text-blue-600 hover:underline flex items-center gap-1"
+            className="font-semibold text-accent hover:underline flex items-center gap-1"
           >
             <Smartphone className="h-3.5 w-3.5" /> Sign In with Mobile OTP
           </Link>
           <Link
             href="/register"
-            className="font-semibold text-slate-700 hover:text-blue-600"
+            className="font-semibold text-fg hover:text-accent transition-colors"
           >
-            Create Customer Account
+            Create Account
           </Link>
         </div>
       </div>
 
       {/* One-Click Demo Accounts Box */}
-      <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 space-y-3 text-xs">
-        <div className="flex items-center gap-2 font-bold text-amber-900">
-          <ShieldCheck className="h-4 w-4 text-amber-600" />
+      <div className="glass-card rounded-2xl border border-amber-500/30 p-5 space-y-3 text-xs">
+        <div className="flex items-center gap-2 font-bold text-amber-700 dark:text-amber-300">
+          <ShieldCheck className="h-4 w-4" />
           <span>Client Demo Quick-Login Accounts</span>
         </div>
-        <p className="text-amber-800 text-[11px]">
+        <p className="text-muted text-[11px]">
           Click below to sign in immediately as the Demo Administrator or Demo Customers:
         </p>
         <div className="grid grid-cols-1 gap-2">
@@ -124,10 +124,10 @@ export default function LoginPage() {
             type="button"
             disabled={loading}
             onClick={() => performLogin('admin@kiransinfotech.demo', 'Admin@Kiran2026!')}
-            className="flex items-center justify-between rounded-lg bg-slate-900 px-3.5 py-2.5 text-white hover:bg-slate-800 font-semibold"
+            className="flex items-center justify-between rounded-xl bg-[#0B1930] border border-blue-400/20 px-3.5 py-2.5 text-white hover:bg-slate-800 font-semibold transition"
           >
             <span>Admin Console (Kiran Deshmukh)</span>
-            <span className="font-mono text-[10px] text-blue-300">
+            <span className="font-mono text-[10px] text-electric">
               admin@kiransinfotech.demo
             </span>
           </button>
@@ -137,12 +137,12 @@ export default function LoginPage() {
             onClick={() =>
               performLogin('rahul.sharma@example.demo', 'Customer@2026!')
             }
-            className="flex items-center justify-between rounded-lg border border-amber-300 bg-white px-3.5 py-2 text-slate-800 hover:bg-amber-100/50 font-semibold"
+            className="glass-pill flex items-center justify-between rounded-xl px-3.5 py-2 text-fg hover:border-accent font-semibold transition"
           >
             <span className="flex items-center gap-1.5">
-              <User className="h-3.5 w-3.5 text-blue-600" /> Customer 1 (Rahul Sharma)
+              <User className="h-3.5 w-3.5 text-accent" /> Customer 1 (Rahul Sharma)
             </span>
-            <span className="font-mono text-[10px] text-slate-500">
+            <span className="font-mono text-[10px] text-muted">
               rahul.sharma@example.demo
             </span>
           </button>
@@ -152,12 +152,12 @@ export default function LoginPage() {
             onClick={() =>
               performLogin('priya.patel@example.demo', 'Customer@2026!')
             }
-            className="flex items-center justify-between rounded-lg border border-amber-300 bg-white px-3.5 py-2 text-slate-800 hover:bg-amber-100/50 font-semibold"
+            className="glass-pill flex items-center justify-between rounded-xl px-3.5 py-2 text-fg hover:border-accent font-semibold transition"
           >
             <span className="flex items-center gap-1.5">
-              <User className="h-3.5 w-3.5 text-emerald-600" /> Customer 2 (Priya Patel)
+              <User className="h-3.5 w-3.5 text-emerald-500" /> Customer 2 (Priya Patel)
             </span>
-            <span className="font-mono text-[10px] text-slate-500">
+            <span className="font-mono text-[10px] text-muted">
               priya.patel@example.demo
             </span>
           </button>

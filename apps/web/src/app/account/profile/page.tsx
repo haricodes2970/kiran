@@ -89,7 +89,7 @@ export default function CustomerProfilePage() {
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
       <Link
         href="/account"
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-blue-600"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted hover:text-accent transition-colors"
       >
         <ArrowLeft className="h-4 w-4" /> Back to Customer Dashboard
       </Link>
@@ -97,14 +97,14 @@ export default function CustomerProfilePage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <form
           onSubmit={handleSaveProfile}
-          className="rounded-2xl border border-slate-200 bg-white p-6 space-y-4 text-xs"
+          className="glass-card rounded-3xl p-6 space-y-4 text-xs"
         >
-          <h1 className="text-lg font-bold text-slate-900">
+          <h1 className="font-display text-lg font-bold text-fg">
             Account Profile &amp; GST Details
           </h1>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               Full Name
             </label>
             <input
@@ -112,75 +112,76 @@ export default function CustomerProfilePage() {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="glass-input w-full rounded-xl px-3.5 py-2"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               Phone Number
             </label>
             <input
               type="text"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="glass-input w-full rounded-xl px-3.5 py-2"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               Company / Business Name (Optional)
             </label>
             <input
               type="text"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="glass-input w-full rounded-xl px-3.5 py-2"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               GSTIN (Optional)
             </label>
             <input
               type="text"
               value={gstNumber}
               onChange={(e) => setGstNumber(e.target.value)}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="glass-input w-full rounded-xl px-3.5 py-2"
             />
           </div>
 
           <button
             type="submit"
             disabled={saving}
-            className="rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-blue-700"
+            className="rounded-full bg-brand-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 transition"
           >
             {saving ? 'Saving...' : 'Save Profile Changes'}
           </button>
         </form>
 
         {/* Saved Addresses */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 space-y-4 text-xs">
-          <h2 className="text-lg font-bold text-slate-900">Saved Addresses</h2>
+        <div className="glass-card rounded-3xl p-6 space-y-4 text-xs">
+          <h2 className="font-display text-lg font-bold text-fg">Saved Addresses</h2>
 
           <div className="space-y-3">
             {addresses.map((addr) => (
               <div
                 key={addr.id}
-                className="rounded-lg border border-slate-100 bg-slate-50 p-3 flex items-start justify-between gap-2"
+                className="rounded-xl border border-subtle bg-panel-2/75 p-3 flex items-start justify-between gap-2"
               >
                 <div>
-                  <span className="font-bold text-slate-900">{addr.label}</span>
-                  <p className="text-slate-600 mt-0.5">
+                  <span className="font-bold text-fg">{addr.label}</span>
+                  <p className="text-muted mt-0.5">
                     {addr.addressLine1}, {addr.city}, {addr.state} - {addr.postalCode}
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleDeleteAddress(addr.id)}
-                  className="text-slate-400 hover:text-red-600"
+                  aria-label="Delete address"
+                  className="text-muted hover:text-red-500 transition"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
@@ -188,15 +189,15 @@ export default function CustomerProfilePage() {
             ))}
           </div>
 
-          <form onSubmit={handleAddAddress} className="space-y-3 pt-3 border-t border-slate-100">
-            <h3 className="font-bold text-slate-800">Add New Address</h3>
+          <form onSubmit={handleAddAddress} className="space-y-3 pt-3 border-t border-subtle">
+            <h3 className="font-bold text-fg">Add New Address</h3>
             <input
               type="text"
               required
               value={newLine1}
               onChange={(e) => setNewLine1(e.target.value)}
               placeholder="Street / Building / Area"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="glass-input w-full rounded-xl px-3.5 py-2"
             />
             <div className="grid grid-cols-3 gap-2">
               <input
@@ -205,7 +206,7 @@ export default function CustomerProfilePage() {
                 value={newCity}
                 onChange={(e) => setNewCity(e.target.value)}
                 placeholder="City"
-                className="rounded-lg border border-slate-200 px-2.5 py-2"
+                className="glass-input rounded-xl px-2.5 py-2"
               />
               <input
                 type="text"
@@ -213,7 +214,7 @@ export default function CustomerProfilePage() {
                 value={newState}
                 onChange={(e) => setNewState(e.target.value)}
                 placeholder="State"
-                className="rounded-lg border border-slate-200 px-2.5 py-2"
+                className="glass-input rounded-xl px-2.5 py-2"
               />
               <input
                 type="text"
@@ -221,12 +222,12 @@ export default function CustomerProfilePage() {
                 value={newPostal}
                 onChange={(e) => setNewPostal(e.target.value)}
                 placeholder="PIN"
-                className="rounded-lg border border-slate-200 px-2.5 py-2"
+                className="glass-input rounded-xl px-2.5 py-2"
               />
             </div>
             <button
               type="submit"
-              className="inline-flex items-center gap-1 rounded-lg bg-slate-900 px-3.5 py-2 text-xs font-semibold text-white"
+              className="inline-flex items-center gap-1 rounded-full bg-brand-600 px-4 py-2 text-xs font-semibold text-white hover:bg-brand-700 transition"
             >
               <Plus className="h-3.5 w-3.5" /> Add Address
             </button>
