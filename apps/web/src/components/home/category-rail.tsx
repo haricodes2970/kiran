@@ -54,11 +54,10 @@ export function CategoryRail({ categories, loading, error }: CategoryRailProps) 
   return (
     <section
       aria-labelledby="categories-heading"
-      className="py-16 sm:py-20 bg-[#DCEBFF]/55 dark:bg-[#0D1E3A] border-b border-line dark:border-slate-800"
+      className="py-14 sm:py-18 bg-panel-2/55 border-b border-subtle"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="01 // Category Discovery"
           title="Shop by Hardware Category"
           description="Browse laptops, desktops, displays, memory, storage, printers, and accessories."
           actionHref="/products"
@@ -66,70 +65,69 @@ export function CategoryRail({ categories, loading, error }: CategoryRailProps) 
         />
 
         {loading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 sm:gap-4">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="h-52 rounded-2xl bg-white/60 dark:bg-slate-800/60 animate-pulse" />
+              <div key={i} className="h-44 rounded-card bg-panel animate-pulse border border-subtle" />
             ))}
           </div>
         ) : error ? (
-          <div className="rounded-2xl border border-red-200 bg-red-50 dark:bg-red-950/60 dark:border-red-500/30 p-5 text-sm text-red-700 dark:text-red-200">
+          <div className="rounded-card border border-red-200 bg-red-50 dark:bg-red-950/60 dark:border-red-500/30 p-5 text-sm text-red-700 dark:text-red-200">
             Unable to load hardware categories right now.
           </div>
         ) : categories.length === 0 ? (
-          <div className="glass-card rounded-2xl p-8 text-center text-sm text-slate-600 dark:text-slate-300">
+          <div className="surface-card p-8 text-center text-sm text-muted">
             No hardware categories are published yet.
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 sm:gap-4">
             {categories.map((cat, idx) => {
               const Icon = getCategoryIcon(cat.slug);
               return (
-                <Reveal key={cat.id} delayMs={idx * 35}>
+                <Reveal key={cat.id} delayMs={idx * 30}>
                   <Link
                     href={`/products?categorySlug=${cat.slug}`}
-                    className="glass-card group h-full rounded-2xl overflow-hidden flex flex-col justify-between hover:border-brand-600 dark:hover:border-electric hover:shadow-card transition-all"
+                    className="surface-card group h-full overflow-hidden flex flex-col justify-between hover:border-accent hover:shadow-card transition-all duration-200"
                   >
                     <div>
-                      <div className="relative aspect-[16/9] bg-white dark:bg-slate-900 overflow-hidden border-b border-line dark:border-slate-800">
+                      <div className="relative aspect-[16/9] bg-panel-2 overflow-hidden border-b border-subtle">
                         {cat.imageUrl ? (
                           <img
                             src={cat.imageUrl}
                             alt={cat.name}
                             loading="lazy"
-                            className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="h-full w-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
                           />
                         ) : (
-                          <div className="h-full flex items-center justify-center bg-gradient-to-br from-surface to-blue-100 dark:from-slate-800 dark:to-slate-900 text-brand-600 dark:text-electric">
-                            <Icon className="h-7 w-7" />
+                          <div className="h-full flex items-center justify-center bg-panel-2 text-accent">
+                            <Icon className="h-6 w-6" aria-hidden="true" />
                           </div>
                         )}
-                        <div
-                          className="absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent pointer-events-none"
-                          aria-hidden="true"
-                        />
-                        <span className="glass-pill absolute top-2.5 left-2.5 inline-flex h-8 w-8 items-center justify-center rounded-lg text-brand-600 dark:text-electric">
-                          <Icon className="h-4 w-4" />
-                        </span>
                       </div>
 
-                      <div className="p-4">
-                        <div className="flex items-start justify-between gap-2">
-                          <h3 className="font-display font-semibold text-sm sm:text-base text-ink dark:text-white group-hover:text-brand-600 dark:group-hover:text-electric transition-colors">
-                            {cat.name}
-                          </h3>
-                          <ArrowUpRight className="h-4 w-4 text-slate-400 group-hover:text-brand-600 dark:group-hover:text-electric shrink-0 transition-colors" />
+                      <div className="p-3.5 sm:p-4">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <Icon className="h-4 w-4 text-accent shrink-0" aria-hidden="true" />
+                            <h3 className="font-display font-semibold text-sm sm:text-[15px] text-fg group-hover:text-accent truncate transition-colors">
+                              {cat.name}
+                            </h3>
+                          </div>
+                          <ArrowUpRight
+                            className="h-4 w-4 text-muted group-hover:text-accent shrink-0 transition-colors"
+                            aria-hidden="true"
+                          />
                         </div>
                         {cat.description && (
-                          <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 line-clamp-2">
+                          <p className="hidden sm:line-clamp-1 text-xs text-muted mt-1">
                             {cat.description}
                           </p>
                         )}
                       </div>
                     </div>
 
-                    <div className="px-4 pb-3.5 pt-2.5 border-t border-line/70 dark:border-slate-700/60 flex items-center justify-between font-mono text-[11px] text-slate-600 dark:text-slate-300">
+                    <div className="px-3.5 sm:px-4 py-2.5 border-t border-subtle flex items-center justify-between font-mono text-[11px] text-muted">
                       <span>{cat.productCount ?? 0} listings</span>
-                      <span className="text-brand-600 dark:text-electric font-semibold">Browse</span>
+                      <span className="text-accent font-semibold">Browse</span>
                     </div>
                   </Link>
                 </Reveal>
