@@ -30,7 +30,7 @@ export default function CartPage() {
   const [recipient, setRecipient] = useState(user?.name || '');
   const [phone, setPhone] = useState(user?.phone || '');
   const [addressText, setAddressText] = useState(
-    'In-Store Pickup at Kiran’s Infotech Showroom, Pune',
+    "In-Store Pickup at Kiran's Infotech Showroom",
   );
   const [gstNumber, setGstNumber] = useState(
     user?.customerProfile?.gstNumber || '',
@@ -81,49 +81,49 @@ export default function CartPage() {
   if (confirmedOrder) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <div className="rounded-2xl border border-emerald-200 bg-white p-8 space-y-5 shadow-sm">
-          <div className="flex items-center gap-3 text-emerald-700">
+        <div className="glass-card rounded-3xl border border-emerald-500/30 p-8 space-y-5">
+          <div className="flex items-center gap-3 text-emerald-600 dark:text-emerald-400">
             <CheckCircle2 className="h-8 w-8 shrink-0" />
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider">
+              <p className="font-mono text-xs font-bold uppercase tracking-wider">
                 Order Request Confirmed
               </p>
-              <h1 className="text-2xl font-bold text-slate-900">
+              <h1 className="font-display text-2xl font-bold text-fg">
                 Reference: {confirmedOrder.reference}
               </h1>
             </div>
           </div>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-muted">
             Thank you! Your order request has been recorded and stock has been reserved. Our sales desk will confirm pickup/delivery and payment details shortly.
           </p>
-          <div className="rounded-xl bg-slate-50 p-4 border border-slate-200 space-y-2 text-xs">
+          <div className="rounded-2xl bg-panel-2 p-4 border border-subtle space-y-2 text-xs">
             <div className="flex justify-between">
-              <span className="text-slate-500">Status:</span>
-              <span className="font-semibold text-slate-900">
+              <span className="text-muted">Status:</span>
+              <span className="font-semibold text-fg">
                 {confirmedOrder.status}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-500">Fulfilment:</span>
-              <span className="font-semibold text-slate-900">
+              <span className="text-muted">Fulfilment:</span>
+              <span className="font-semibold text-fg">
                 {confirmedOrder.fulfilmentType}
               </span>
             </div>
-            <div className="flex justify-between text-sm font-bold pt-2 border-t border-slate-200">
+            <div className="flex justify-between text-sm font-bold text-fg pt-2 border-t border-subtle">
               <span>Total Amount (Incl. GST):</span>
               <span>{formatINR(confirmedOrder.totalAmount)}</span>
             </div>
           </div>
-          <div className="flex items-center gap-3 pt-2">
+          <div className="flex flex-wrap items-center gap-3 pt-2">
             <Link
               href="/account/orders"
-              className="rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-blue-700"
+              className="rounded-full bg-brand-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 transition"
             >
               View in My Orders
             </Link>
             <Link
               href="/products"
-              className="rounded-lg border border-slate-200 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              className="glass-pill rounded-full px-5 py-2.5 text-xs font-semibold text-fg hover:border-accent transition"
             >
               Continue Shopping
             </Link>
@@ -136,31 +136,31 @@ export default function CartPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-blue-600">
-          Purchase &amp; Order Request
+        <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
+          Order Request Only • No Online Payment
         </p>
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
+        <h1 className="font-display text-2xl sm:text-3xl font-bold text-fg mt-1">
           Your Hardware Order Cart
         </h1>
       </div>
 
       {cart.length === 0 ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center space-y-4">
-          <ShoppingCart className="h-10 w-10 text-slate-400 mx-auto" />
-          <h2 className="text-lg font-bold text-slate-900">Your cart is empty</h2>
-          <p className="text-xs text-slate-500 max-w-md mx-auto">
+        <div className="glass-card rounded-3xl p-12 text-center space-y-4">
+          <ShoppingCart className="h-10 w-10 text-muted mx-auto" />
+          <h2 className="font-display text-lg font-bold text-fg">Your cart is empty</h2>
+          <p className="text-xs text-muted max-w-md mx-auto">
             Browse our new laptops, SSDs, RAM modules, monitors, or certified refurbished laptops to add items to your order request.
           </p>
-          <div className="flex justify-center gap-3 pt-2">
+          <div className="flex flex-wrap justify-center gap-3 pt-2">
             <Link
               href="/products"
-              className="rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white"
+              className="rounded-full bg-amber-500 px-5 py-2.5 text-xs font-semibold text-ink hover:bg-amber-400 transition"
             >
-              Browse New Hardware
+              Browse Hardware Catalogue
             </Link>
             <Link
               href="/refurbished"
-              className="rounded-lg border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700"
+              className="glass-pill rounded-full px-5 py-2.5 text-xs font-semibold text-fg hover:border-accent transition"
             >
               Browse Refurbished Laptops
             </Link>
@@ -173,17 +173,17 @@ export default function CartPage() {
             {cart.map((item) => (
               <div
                 key={`${item.type}-${item.id}`}
-                className="rounded-xl border border-slate-200 bg-white p-4 flex items-center justify-between gap-4"
+                className="glass-card rounded-2xl p-4 sm:p-5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4"
               >
-                <div className="space-y-1">
+                <div className="space-y-1 min-w-0">
                   <div className="flex items-center gap-2 text-xs">
-                    <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-slate-600">
+                    <span className="glass-pill rounded-full px-2.5 py-0.5 font-mono text-muted">
                       {item.sku}
                     </span>
-                    <span className="text-blue-600 font-semibold">
+                    <span className="text-accent font-semibold">
                       {item.type === 'REFURBISHED'
-                        ? 'Certified Refurbished Unit'
-                        : 'New Hardware'}
+                        ? 'Refurbished Unit'
+                        : 'Hardware'}
                     </span>
                   </div>
                   <Link
@@ -192,23 +192,24 @@ export default function CartPage() {
                         ? `/refurbished/${item.slug}`
                         : `/products/${item.slug}`
                     }
-                    className="font-semibold text-slate-900 text-sm hover:text-blue-600"
+                    className="block font-display font-semibold text-fg text-sm sm:text-base hover:text-accent transition-colors"
                   >
                     {item.name}
                   </Link>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-muted">
                     Unit Price: {formatINR(item.price)}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 ml-auto">
                   {item.type === 'PRODUCT' ? (
                     <select
+                      aria-label={`Quantity for ${item.name}`}
                       value={item.quantity}
                       onChange={(e) =>
                         updateCartQuantity(item.id, Number(e.target.value))
                       }
-                      className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-semibold"
+                      className="glass-input rounded-full px-3 py-1.5 text-xs font-semibold"
                     >
                       {[...Array(Math.min(10, item.maxStock))].map((_, i) => (
                         <option key={i + 1} value={i + 1}>
@@ -217,20 +218,21 @@ export default function CartPage() {
                       ))}
                     </select>
                   ) : (
-                    <span className="text-xs font-medium text-slate-500 px-2">
+                    <span className="text-xs font-medium text-muted px-2">
                       1 Unit
                     </span>
                   )}
 
-                  <span className="text-sm font-bold text-slate-900 min-w-[85px] text-right">
+                  <span className="font-display text-sm font-bold text-fg min-w-[85px] text-right">
                     {formatINR(item.price * item.quantity)}
                   </span>
 
                   <button
                     type="button"
                     onClick={() => removeFromCart(item.id)}
-                    className="text-slate-400 hover:text-red-600 p-1"
+                    className="text-muted hover:text-red-500 p-1.5 rounded-full transition"
                     title="Remove item"
+                    aria-label={`Remove ${item.name}`}
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -239,19 +241,19 @@ export default function CartPage() {
             ))}
           </div>
 
-          {/* Checkout Form */}
+          {/* Order Request Form */}
           <div className="lg:col-span-5">
             <form
               onSubmit={handleSubmitOrder}
-              className="rounded-2xl border border-slate-200 bg-white p-6 space-y-4"
+              className="glass-card rounded-3xl p-6 space-y-4"
             >
-              <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">
+              <h2 className="font-display text-base font-bold text-fg border-b border-subtle pb-3">
                 Submit Order Request
               </h2>
 
               <div className="space-y-3 text-xs">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Fulfilment Preference
                   </label>
                   <select
@@ -261,7 +263,7 @@ export default function CartPage() {
                         e.target.value as 'STORE_PICKUP' | 'DELIVERY',
                       )
                     }
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   >
                     <option value="STORE_PICKUP">
                       In-Store Collection (Kiran&apos;s Infotech Showroom)
@@ -271,7 +273,7 @@ export default function CartPage() {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Recipient Name *
                   </label>
                   <input
@@ -280,12 +282,12 @@ export default function CartPage() {
                     value={recipient}
                     onChange={(e) => setRecipient(e.target.value)}
                     placeholder={user?.name || 'Full Name'}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Contact Phone *
                   </label>
                   <input
@@ -294,12 +296,12 @@ export default function CartPage() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder={user?.phone || '+91 98765 43210'}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Delivery / Pickup Address *
                   </label>
                   <textarea
@@ -307,12 +309,12 @@ export default function CartPage() {
                     required
                     value={addressText}
                     onChange={(e) => setAddressText(e.target.value)}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Company GSTIN (Optional for Tax Invoice)
                   </label>
                   <input
@@ -320,12 +322,12 @@ export default function CartPage() {
                     value={gstNumber}
                     onChange={(e) => setGstNumber(e.target.value)}
                     placeholder="27AABCU9603R1ZM"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Order Notes (Optional)
                   </label>
                   <input
@@ -333,23 +335,23 @@ export default function CartPage() {
                     value={customerNotes}
                     onChange={(e) => setCustomerNotes(e.target.value)}
                     placeholder="e.g. Please pre-install RAM upgrade before pickup"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   />
                 </div>
               </div>
 
-              <div className="border-t border-slate-100 pt-4 space-y-2 text-xs">
-                <div className="flex justify-between text-slate-600">
+              <div className="border-t border-subtle pt-4 space-y-2 text-xs">
+                <div className="flex justify-between text-muted">
                   <span>Estimated Base Amount:</span>
                   <span>{formatINR(Math.round(cartTotal / 1.18))}</span>
                 </div>
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-muted">
                   <span>Included GST (18%):</span>
                   <span>
                     {formatINR(cartTotal - Math.round(cartTotal / 1.18))}
                   </span>
                 </div>
-                <div className="flex justify-between text-base font-bold text-slate-900 pt-2 border-t border-slate-100">
+                <div className="flex justify-between text-base font-bold text-fg pt-2 border-t border-subtle">
                   <span>Order Total:</span>
                   <span>{formatINR(cartTotal)}</span>
                 </div>
@@ -358,7 +360,7 @@ export default function CartPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-xs font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-amber-500 px-5 py-3 text-xs font-semibold text-ink hover:bg-amber-400 disabled:opacity-50 transition shadow-sm"
               >
                 <span>
                   {submitting
