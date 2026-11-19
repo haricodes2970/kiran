@@ -15,57 +15,53 @@ export function FinalCta({ whatsappNumber }: FinalCtaProps) {
   );
 
   return (
-    <section className="pt-16 sm:pt-20">
+    <section className="pt-14 sm:pt-18">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl bg-[#0B1930] dark:bg-[#102342] border border-blue-400/20 text-white p-8 sm:p-12 lg:p-14 shadow-glass">
-            <div
-              className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-brand-600/35 blur-3xl pointer-events-none"
-              aria-hidden="true"
-            />
-            <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-              <div className="space-y-3 max-w-2xl">
-                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-electric">
-                  06 // Ready When You Are
+          <div className="glass-stage rounded-card p-8 sm:p-10 lg:p-12">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+              <div className="space-y-2.5 max-w-2xl">
+                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
+                  Ready When You Are
                 </p>
-                <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
+                <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-fg">
                   Looking for Hardware, an Upgrade, or a Repair Quote?
                 </h2>
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                <p className="text-sm sm:text-base text-muted leading-relaxed">
                   Browse available products, send a direct WhatsApp enquiry, contact our team, or book a service request online.
                 </p>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <div className="flex flex-wrap items-center gap-2.5 shrink-0">
                 <Link
                   href="/products"
-                  className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-5 py-3 text-sm font-semibold text-ink hover:bg-amber-400 transition"
+                  className="inline-flex items-center gap-2 rounded-control bg-amber-500 px-5 py-3 text-sm font-semibold text-[#0B1930] hover:bg-amber-400 transition-colors"
                 >
                   <span>Explore Products</span>
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
 
                 <a
                   href={waUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-500 transition"
+                  className="inline-flex items-center gap-2 rounded-control bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-500 transition-colors"
                 >
-                  <MessageCircle className="h-4 w-4" />
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
                   <span>WhatsApp Enquiry</span>
                 </a>
 
                 <Link
                   href="/services#book-repair"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm font-semibold text-white hover:bg-white/20 transition"
+                  className="inline-flex items-center gap-2 rounded-control border border-subtle bg-panel hover:border-accent px-5 py-3 text-sm font-semibold text-fg transition-colors"
                 >
-                  <Wrench className="h-4 w-4" />
+                  <Wrench className="h-4 w-4 text-accent" aria-hidden="true" />
                   <span>Book a Repair</span>
                 </Link>
 
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-slate-200 hover:bg-white/10 transition"
+                  className="inline-flex items-center gap-2 rounded-control border border-subtle bg-panel hover:border-accent px-5 py-3 text-sm font-semibold text-fg transition-colors"
                 >
                   <span>Contact Us</span>
                 </Link>

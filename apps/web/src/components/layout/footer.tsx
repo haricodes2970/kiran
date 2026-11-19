@@ -58,7 +58,7 @@ export function Footer() {
 
   return (
     <>
-      <footer className="bg-white/75 dark:bg-[#071122] border-t border-line dark:border-slate-800 text-ink dark:text-slate-100 mt-20">
+      <footer className="bg-panel border-t border-subtle text-fg mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             {/* Brand */}
@@ -90,17 +90,17 @@ export function Footer() {
                   className="hidden dark:block h-6 w-auto object-contain"
                 />
               </Link>
-              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-sm text-muted leading-relaxed">
                 {info?.tagline ||
-                  'Computer hardware, refurbished laptops, upgrades, and IT repair services — managed through transparent order requests and quotations.'}
+                  'Computer hardware, refurbished laptops, upgrades, and IT repair services managed through transparent order requests and quotations.'}
               </p>
               <a
                 href={waUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-500 transition"
+                className="inline-flex items-center gap-2 rounded-control bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-500 transition-colors"
               >
-                <MessageCircle className="h-4 w-4" />
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 <span>WhatsApp Enquiry</span>
               </a>
             </div>
@@ -226,15 +226,15 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="border-t border-line dark:border-slate-800 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-4">
+          <div className="border-t border-subtle mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-muted gap-4">
             <p>
               © {new Date().getFullYear()} {info?.businessName || "Kiran's Infotech"}. All rights reserved.
             </p>
             <div className="flex items-center gap-5">
-              <Link href="/about" className="hover:text-ink dark:hover:text-white transition">
+              <Link href="/about" className="hover:text-fg transition-colors">
                 About
               </Link>
-              <Link href="/contact" className="hover:text-ink dark:hover:text-white transition">
+              <Link href="/contact" className="hover:text-fg transition-colors">
                 Support &amp; Contact
               </Link>
             </div>
@@ -248,9 +248,9 @@ export function Footer() {
         target="_blank"
         rel="noreferrer"
         aria-label="Chat with Kiran's Infotech on WhatsApp"
-        className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-glass hover:bg-emerald-500 transition"
+        className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-control bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-glass hover:bg-emerald-500 transition-colors"
       >
-        <MessageCircle className="h-5 w-5" />
+        <MessageCircle className="h-5 w-5" aria-hidden="true" />
         <span className="hidden sm:inline">WhatsApp Enquiry</span>
       </a>
     </>
