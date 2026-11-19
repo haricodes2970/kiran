@@ -9,10 +9,10 @@ import {
   ClipboardCheck,
   MessageCircle,
   ShieldCheck,
-  ShoppingCart,
 } from 'lucide-react';
 import { apiFetch, buildWhatsAppUrl, formatINR } from '@/lib/api';
 import { useApp } from '@/context/app-context';
+import { AddToCartButton } from '@/components/ui/add-to-cart-button';
 
 export default function RefurbishedDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -39,7 +39,7 @@ export default function RefurbishedDetailPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="h-96 rounded-2xl bg-slate-200 animate-pulse" />
+        <div className="h-96 rounded-2xl bg-panel/60 animate-pulse" />
       </div>
     );
   }
@@ -47,15 +47,15 @@ export default function RefurbishedDetailPage() {
   if (error || !device) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 text-center space-y-4">
-        <h1 className="text-2xl font-bold text-slate-900">
+        <h1 className="font-display text-2xl font-bold text-fg">
           Refurbished Laptop Unavailable
         </h1>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-muted">
           {error || 'This unit may have already been sold.'}
         </p>
         <Link
           href="/refurbished"
-          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white"
+          className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-xs font-semibold text-white"
         >
           <ArrowLeft className="h-4 w-4" /> View Available Refurbished Laptops
         </Link>
@@ -65,21 +65,21 @@ export default function RefurbishedDetailPage() {
 
   const inspection = device.inspections?.[0];
   const waUrl = buildWhatsAppUrl(
-    `Hello Kiran's Infotech, I want to enquire about Certified Refurbished "${device.title}" (Code: ${device.deviceCode}, Serial: ${device.serialNumber}, Price: ${formatINR(device.sellingPrice)}).`,
+    `Hello Kiran's Infotech, I want to enquire about refurbished "${device.title}" (Code: ${device.deviceCode}, Serial: ${device.serialNumber}, Price: ${formatINR(device.sellingPrice)}).`,
   );
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
       <Link
         href="/refurbished"
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-blue-600"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted hover:text-accent transition-colors"
       >
         <ArrowLeft className="h-4 w-4" /> Back to Refurbished Marketplace
       </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-5 space-y-4">
-          <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
+          <div className="rounded-3xl border border-subtle bg-white overflow-hidden shadow-card">
             {device.imageUrls?.[0] && (
               <img
                 src={device.imageUrls[0]}
@@ -89,68 +89,70 @@ export default function RefurbishedDetailPage() {
             )}
           </div>
 
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50/70 p-4 space-y-2 text-xs">
-            <div className="flex items-center gap-2 font-bold text-emerald-900">
-              <ShieldCheck className="h-4 w-4 text-emerald-600" />
-              <span>Warranty &amp; Certification Summary</span>
+          <div className="glass-card rounded-2xl p-4 space-y-2 text-xs border border-emerald-500/25">
+            <div className="flex items-center gap-2 font-bold text-emerald-700 dark:text-emerald-300">
+              <ShieldCheck className="h-4 w-4" />
+              <span>Warranty &amp; Unit Identification</span>
             </div>
-            <p className="text-emerald-800">
-              {device.warrantyTerms ||
-                `${device.warrantyMonths}-Month Kiran's Infotech Carry-In Hardware Warranty`}
-            </p>
-            <p className="text-[11px] text-emerald-700">
-              Serial Number: <span className="font-mono">{device.serialNumber}</span> • Unit Code:{' '}
-              <span className="font-mono">{device.deviceCode}</span>
+            {(device.warrantyTerms || (typeof device.warrantyMonths === 'number' && device.warrantyMonths > 0)) && (
+              <p className="text-fg">
+                {device.warrantyTerms || `${device.warrantyMonths}-Month Store Hardware Warranty`}
+              </p>
+            )}
+            <p className="text-[11px] text-muted">
+              Serial Number: <span className="font-mono text-fg">{device.serialNumber}</span> • Unit Code:{' '}
+              <span className="font-mono text-fg">{device.deviceCode}</span>
             </p>
           </div>
         </div>
 
         <div className="lg:col-span-7 space-y-6">
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             <div className="flex flex-wrap items-center gap-2 text-xs">
-              <span className="rounded-md bg-emerald-600 px-2.5 py-1 font-semibold text-white">
+              <span className="rounded-full bg-brand-600 px-3 py-1 font-mono text-[11px] font-semibold text-white">
                 {device.conditionGrade?.replace(/_/g, ' ')}
               </span>
-              <span className="rounded-md bg-slate-100 px-2.5 py-1 font-mono text-slate-700">
+              <span className="glass-pill rounded-full px-3 py-1 font-mono text-muted">
                 Unit: {device.deviceCode}
               </span>
               {device.batteryHealthPct && (
-                <span className="rounded-md bg-blue-50 px-2.5 py-1 font-semibold text-blue-700">
-                  Battery Health: {device.batteryHealthPct}% ({device.batteryCycles || 'Verified'} cycles)
+                <span className="rounded-full bg-blue-50 dark:bg-brand-600/20 px-3 py-1 font-semibold text-brand-700 dark:text-electric">
+                  Battery Health: {device.batteryHealthPct}%{device.batteryCycles ? ` (${device.batteryCycles} cycles)` : ''}
                 </span>
               )}
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
+            <h1 className="font-display text-2xl sm:text-3xl font-bold text-fg">
               {device.title}
             </h1>
             {device.cosmeticNotes && (
-              <p className="text-xs text-slate-600">
-                <strong className="text-slate-800">Physical Condition Notes:</strong>{' '}
+              <p className="text-xs text-muted">
+                <strong className="text-fg">Physical Condition Notes:</strong>{' '}
                 {device.cosmeticNotes}
               </p>
             )}
             {device.workPerformed && (
-              <p className="text-xs text-slate-600">
-                <strong className="text-slate-800">Refurbishment Work Performed:</strong>{' '}
+              <p className="text-xs text-muted">
+                <strong className="text-fg">Refurbishment Work Logged:</strong>{' '}
                 {device.workPerformed}
               </p>
             )}
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-5 flex flex-wrap items-center justify-between gap-4">
+          <div className="glass-card rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <span className="block text-xs text-slate-500">
-                Certified Refurbished Price (Single Serialized Unit)
+              <span className="block text-xs text-muted">
+                Refurbished Unit Price (Order Request Only)
               </span>
-              <span className="text-3xl font-bold text-slate-900">
+              <span className="font-display text-3xl font-bold text-fg">
                 {formatINR(device.sellingPrice)}
               </span>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <button
-                onClick={() =>
+              <AddToCartButton
+                label="Add to Cart"
+                onAdd={() =>
                   addToCart({
                     id: device.id,
                     type: 'REFURBISHED',
@@ -162,17 +164,14 @@ export default function RefurbishedDetailPage() {
                     imageUrl: device.imageUrls?.[0],
                   })
                 }
-                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-blue-700"
-              >
-                <ShoppingCart className="h-4 w-4" />
-                <span>Add Unit to Order Cart</span>
-              </button>
+                className="px-6 py-2.5"
+              />
 
               <a
                 href={waUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-emerald-500"
+                className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-emerald-500 transition"
               >
                 <MessageCircle className="h-4 w-4" />
                 <span>WhatsApp Enquiry</span>
@@ -181,108 +180,81 @@ export default function RefurbishedDetailPage() {
           </div>
 
           {/* Hardware Specs */}
-          <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-            <div className="bg-slate-50 px-5 py-3 border-b border-slate-200">
-              <h2 className="text-sm font-bold text-slate-900">
+          <div className="glass-card rounded-2xl overflow-hidden">
+            <div className="bg-panel-2/80 px-5 py-3 border-b border-subtle">
+              <h2 className="font-display text-sm font-bold text-fg">
                 Unit Hardware Configuration
               </h2>
             </div>
-            <dl className="divide-y divide-slate-100 text-xs">
+            <dl className="divide-y divide-subtle text-xs">
               <div className="grid grid-cols-3 px-5 py-2.5">
-                <dt className="font-semibold text-slate-600">Brand &amp; Model</dt>
-                <dd className="col-span-2 text-slate-900 font-medium">
+                <dt className="font-semibold text-muted">Brand &amp; Model</dt>
+                <dd className="col-span-2 text-fg font-medium">
                   {device.brand} {device.model}
                 </dd>
               </div>
               <div className="grid grid-cols-3 px-5 py-2.5">
-                <dt className="font-semibold text-slate-600">Processor</dt>
-                <dd className="col-span-2 text-slate-900 font-medium">
+                <dt className="font-semibold text-muted">Processor</dt>
+                <dd className="col-span-2 text-fg font-medium">
                   {device.processor}
                 </dd>
               </div>
               <div className="grid grid-cols-3 px-5 py-2.5">
-                <dt className="font-semibold text-slate-600">Memory (RAM)</dt>
-                <dd className="col-span-2 text-slate-900 font-medium">{device.ram}</dd>
+                <dt className="font-semibold text-muted">Memory (RAM)</dt>
+                <dd className="col-span-2 text-fg font-medium">{device.ram}</dd>
               </div>
               <div className="grid grid-cols-3 px-5 py-2.5">
-                <dt className="font-semibold text-slate-600">Storage</dt>
-                <dd className="col-span-2 text-slate-900 font-medium">
+                <dt className="font-semibold text-muted">Storage</dt>
+                <dd className="col-span-2 text-fg font-medium">
                   {device.storage}
                 </dd>
               </div>
               <div className="grid grid-cols-3 px-5 py-2.5">
-                <dt className="font-semibold text-slate-600">Display</dt>
-                <dd className="col-span-2 text-slate-900 font-medium">
+                <dt className="font-semibold text-muted">Display</dt>
+                <dd className="col-span-2 text-fg font-medium">
                   {device.display}
                 </dd>
               </div>
               <div className="grid grid-cols-3 px-5 py-2.5">
-                <dt className="font-semibold text-slate-600">Operating System</dt>
-                <dd className="col-span-2 text-slate-900 font-medium">
+                <dt className="font-semibold text-muted">Operating System</dt>
+                <dd className="col-span-2 text-fg font-medium">
                   {device.osInstalled}
                 </dd>
               </div>
             </dl>
           </div>
 
-          {/* 40-Point Inspection Report */}
+          {/* Recorded Technician Inspection Report */}
           {inspection && (
-            <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-              <div className="bg-slate-900 text-white px-5 py-3.5 flex items-center justify-between">
+            <div className="glass-card rounded-2xl overflow-hidden">
+              <div className="bg-[#0B1930] text-white px-5 py-3.5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <ClipboardCheck className="h-4 w-4 text-emerald-400" />
-                  <h2 className="text-sm font-bold">
+                  <ClipboardCheck className="h-4 w-4 text-electric" />
+                  <h2 className="font-display text-sm font-bold">
                     Technician Hardware Inspection Report
                   </h2>
                 </div>
-                <span className="text-[11px] text-emerald-300 font-semibold">
+                <span className="text-[11px] text-electric font-semibold">
                   Inspector: {inspection.inspectorName}
                 </span>
               </div>
               <div className="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div className="rounded-lg bg-slate-50 p-3 border border-slate-100">
-                  <span className="font-bold text-slate-800 block mb-1">
-                    Display &amp; Hinges
-                  </span>
-                  <span className="text-slate-600">{inspection.screenCheck}</span>
-                </div>
-                <div className="rounded-lg bg-slate-50 p-3 border border-slate-100">
-                  <span className="font-bold text-slate-800 block mb-1">
-                    Keyboard &amp; Trackpad
-                  </span>
-                  <span className="text-slate-600">{inspection.keyboardTrackpad}</span>
-                </div>
-                <div className="rounded-lg bg-slate-50 p-3 border border-slate-100">
-                  <span className="font-bold text-slate-800 block mb-1">
-                    Ports &amp; Wireless
-                  </span>
-                  <span className="text-slate-600">{inspection.portsConnectivity}</span>
-                </div>
-                <div className="rounded-lg bg-slate-50 p-3 border border-slate-100">
-                  <span className="font-bold text-slate-800 block mb-1">
-                    Thermals &amp; Cooling Fan
-                  </span>
-                  <span className="text-slate-600">{inspection.thermalsFan}</span>
-                </div>
-                <div className="rounded-lg bg-slate-50 p-3 border border-slate-100">
-                  <span className="font-bold text-slate-800 block mb-1">
-                    Battery Capacity Test
-                  </span>
-                  <span className="text-slate-600">
-                    {inspection.batteryHealthReport}
-                  </span>
-                </div>
-                <div className="rounded-lg bg-slate-50 p-3 border border-slate-100">
-                  <span className="font-bold text-slate-800 block mb-1">
-                    SSD / Storage SMART Health
-                  </span>
-                  <span className="text-slate-600">
-                    {inspection.storageSmartHealth}
-                  </span>
-                </div>
+                {[
+                  ['Display & Hinges', inspection.screenCheck],
+                  ['Keyboard & Trackpad', inspection.keyboardTrackpad],
+                  ['Ports & Wireless', inspection.portsConnectivity],
+                  ['Thermals & Cooling Fan', inspection.thermalsFan],
+                  ['Battery Capacity Test', inspection.batteryHealthReport],
+                  ['SSD / Storage SMART Health', inspection.storageSmartHealth],
+                ].map(([label, val]) => (
+                  <div key={String(label)} className="rounded-xl bg-panel-2/75 p-3 border border-subtle">
+                    <span className="font-bold text-fg block mb-1">{label}</span>
+                    <span className="text-muted">{val}</span>
+                  </div>
+                ))}
               </div>
-              <div className="bg-emerald-50 px-5 py-3 border-t border-emerald-100 flex items-center gap-2 text-xs font-semibold text-emerald-800">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+              <div className="bg-emerald-500/10 px-5 py-3 border-t border-emerald-500/20 flex items-center gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+                <CheckCircle2 className="h-4 w-4" />
                 <span>Verdict: {inspection.overallVerdict}</span>
               </div>
             </div>
