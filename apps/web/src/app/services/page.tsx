@@ -42,6 +42,12 @@ function ServicesAndRepairContent() {
   }, [searchParams]);
 
   useEffect(() => {
+    if (user?.phone) {
+      setCustomerPhone((prev) => prev || user.phone || '');
+    }
+  }, [user]);
+
+  useEffect(() => {
     async function load() {
       setLoading(true);
       try {

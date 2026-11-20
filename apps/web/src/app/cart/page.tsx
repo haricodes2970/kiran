@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -46,6 +46,13 @@ export default function CartPage() {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [confirmedOrder, setConfirmedOrder] = useState<any | null>(null);
+
+  useEffect(() => {
+    if (!user) return;
+    setRecipient((prev) => prev || user.name || '');
+    setPhone((prev) => prev || user.phone || '');
+    setGstNumber((prev) => prev || user.customerProfile?.gstNumber || '');
+  }, [user]);
 
   const handleFulfilmentChange = (nextType: 'STORE_PICKUP' | 'DELIVERY') => {
     setFulfilmentType(nextType);
