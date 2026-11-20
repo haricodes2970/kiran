@@ -61,45 +61,45 @@ export default function SellLaptopPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       <div className="space-y-2">
-        <span className="text-xs font-semibold uppercase tracking-wider text-blue-600">
+        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
           Second-Hand Laptop Buyback &amp; Trade-In
         </span>
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
+        <h1 className="font-display text-2xl sm:text-3xl font-bold text-fg">
           Sell Your Used Laptop to Kiran&apos;s Infotech
         </h1>
-        <p className="text-sm text-slate-600 leading-relaxed">
-          We purchase well-maintained second-hand business and consumer laptops, evaluate them in our hardware lab, and offer direct buyback or upgrade trade-in credit.
+        <p className="text-sm text-muted leading-relaxed">
+          Submit your laptop specifications and condition details below to receive a transparent buyback evaluation or trade-in offer.
         </p>
       </div>
 
       {submittedRecord ? (
-        <div className="rounded-2xl border border-emerald-200 bg-white p-8 space-y-4">
-          <div className="flex items-center gap-3 text-emerald-700">
+        <div className="glass-card rounded-3xl border border-emerald-500/30 p-8 space-y-4">
+          <div className="flex items-center gap-3 text-emerald-600 dark:text-emerald-400">
             <CheckCircle2 className="h-8 w-8 shrink-0" />
             <div>
-              <p className="text-xs font-bold uppercase">
+              <p className="font-mono text-xs font-bold uppercase">
                 Used-Device Evaluation Logged
               </p>
-              <h2 className="text-xl font-bold text-slate-900">
+              <h2 className="font-display text-xl font-bold text-fg">
                 Reference: {submittedRecord.reference}
               </h2>
             </div>
           </div>
-          <p className="text-xs text-slate-600">
-            Our acquisition specialist will review your {submittedRecord.brand}{' '}
+          <p className="text-xs text-muted">
+            Our team will review your {submittedRecord.brand}{' '}
             {submittedRecord.model} details and share an evaluation offer in your Customer Dashboard.
           </p>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <Link
               href="/account"
-              className="rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white"
+              className="rounded-full bg-brand-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 transition"
             >
               Go to Customer Dashboard
             </Link>
             <button
               type="button"
               onClick={() => setSubmittedRecord(null)}
-              className="rounded-lg border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700"
+              className="glass-pill rounded-full px-4 py-2 text-xs font-semibold text-fg"
             >
               Submit Another Device
             </button>
@@ -108,18 +108,18 @@ export default function SellLaptopPage() {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 space-y-4 text-xs"
+          className="glass-card rounded-3xl p-6 sm:p-8 space-y-4 text-xs"
         >
-          <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-            <Laptop className="h-5 w-5 text-blue-600" />
-            <h2 className="text-base font-bold text-slate-900">
+          <div className="flex items-center gap-2 border-b border-subtle pb-3">
+            <Laptop className="h-5 w-5 text-accent" />
+            <h2 className="font-display text-base font-bold text-fg">
               Device Specifications &amp; Condition Form
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-fg mb-1">
                 Laptop Brand *
               </label>
               <input
@@ -128,12 +128,12 @@ export default function SellLaptopPage() {
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
                 placeholder="e.g. Lenovo, Dell, HP, Apple"
-                className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                className="glass-input w-full rounded-xl px-3.5 py-2"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-fg mb-1">
                 Model Name *
               </label>
               <input
@@ -142,12 +142,12 @@ export default function SellLaptopPage() {
                 value={model}
                 onChange={(e) => setModel(e.target.value)}
                 placeholder="e.g. ThinkPad T480, Latitude 5410, MacBook Air M1"
-                className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                className="glass-input w-full rounded-xl px-3.5 py-2"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-fg mb-1">
                 Processor (CPU) *
               </label>
               <input
@@ -156,12 +156,12 @@ export default function SellLaptopPage() {
                 value={processor}
                 onChange={(e) => setProcessor(e.target.value)}
                 placeholder="e.g. Intel Core i5 10th Gen / Ryzen 5 5500U"
-                className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                className="glass-input w-full rounded-xl px-3.5 py-2"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-fg mb-1">
                 Installed RAM *
               </label>
               <input
@@ -170,12 +170,12 @@ export default function SellLaptopPage() {
                 value={ram}
                 onChange={(e) => setRam(e.target.value)}
                 placeholder="e.g. 8GB / 16GB DDR4"
-                className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                className="glass-input w-full rounded-xl px-3.5 py-2"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-fg mb-1">
                 Storage (SSD / HDD) *
               </label>
               <input
@@ -184,12 +184,12 @@ export default function SellLaptopPage() {
                 value={storage}
                 onChange={(e) => setStorage(e.target.value)}
                 placeholder="e.g. 256GB NVMe SSD / 512GB SSD"
-                className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                className="glass-input w-full rounded-xl px-3.5 py-2"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-fg mb-1">
                 Approximate Device Age (Months)
               </label>
               <input
@@ -197,12 +197,12 @@ export default function SellLaptopPage() {
                 min={0}
                 value={ageMonths}
                 onChange={(e) => setAgeMonths(e.target.value)}
-                className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                className="glass-input w-full rounded-xl px-3.5 py-2"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-fg mb-1">
                 Expected Price in INR (Optional)
               </label>
               <input
@@ -211,12 +211,12 @@ export default function SellLaptopPage() {
                 value={expectedPrice}
                 onChange={(e) => setExpectedPrice(e.target.value)}
                 placeholder="e.g. 16000"
-                className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                className="glass-input w-full rounded-xl px-3.5 py-2"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-fg mb-1">
                 Contact Phone *
               </label>
               <input
@@ -225,13 +225,13 @@ export default function SellLaptopPage() {
                 value={contactPhone}
                 onChange={(e) => setContactPhone(e.target.value)}
                 placeholder="+91 98765 43210"
-                className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                className="glass-input w-full rounded-xl px-3.5 py-2"
               />
             </div>
           </div>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               Physical &amp; Battery Condition Summary *
             </label>
             <textarea
@@ -240,12 +240,12 @@ export default function SellLaptopPage() {
               value={conditionSummary}
               onChange={(e) => setConditionSummary(e.target.value)}
               placeholder="Mention charger availability, battery backup hours, and body condition..."
-              className="w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="glass-input w-full rounded-xl px-3.5 py-2"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">
+            <label className="block font-semibold text-fg mb-1">
               Any Known Hardware Issues (Optional)
             </label>
             <input
@@ -253,12 +253,12 @@ export default function SellLaptopPage() {
               value={knownIssues}
               onChange={(e) => setKnownIssues(e.target.value)}
               placeholder="e.g. None, or weak battery / scratch on lid"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2"
+              className="glass-input w-full rounded-xl px-3.5 py-2"
             />
           </div>
 
-          <div className="flex items-center justify-between pt-2">
-            <span className="text-slate-500">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+            <span className="text-muted">
               {user
                 ? `Submitting as ${user.name}`
                 : 'Sign-in required to submit buyback request'}
@@ -266,7 +266,7 @@ export default function SellLaptopPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 disabled:opacity-50 transition"
             >
               <Send className="h-4 w-4" />
               <span>

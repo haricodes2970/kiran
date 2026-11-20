@@ -14,7 +14,7 @@ export default function CategorySlugRedirectPage() {
   }, [slug, router]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16 text-center text-sm text-slate-500">
+    <div className="max-w-7xl mx-auto px-4 py-16 text-center text-sm text-muted">
       Loading category products...
     </div>
   );

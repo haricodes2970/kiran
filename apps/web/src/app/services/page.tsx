@@ -24,7 +24,6 @@ function ServicesAndRepairContent() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Repair booking form state
   const [serviceId, setServiceId] = useState(searchParams.get('serviceId') || '');
   const [deviceType, setDeviceType] = useState('Laptop');
   const [brand, setBrand] = useState('');
@@ -41,6 +40,12 @@ function ServicesAndRepairContent() {
     const sid = searchParams.get('serviceId');
     if (sid) setServiceId(sid);
   }, [searchParams]);
+
+  useEffect(() => {
+    if (user?.phone) {
+      setCustomerPhone((prev) => prev || user.phone || '');
+    }
+  }, [user]);
 
   useEffect(() => {
     async function load() {
@@ -98,49 +103,60 @@ function ServicesAndRepairContent() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-6">
+      {/* Header & Quick Repair Navigation */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-subtle pb-6">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-blue-600">
-            Kiran&apos;s Infotech Hardware Lab
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
+            IT Repair &amp; Upgrade Services
           </p>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
-            Computer, Laptop &amp; Printer Repair &amp; Upgrade Services
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-fg mt-1">
+            Computer, Laptop &amp; Printer Services
           </h1>
-          <p className="text-sm text-slate-600 mt-1 max-w-2xl">
-            From chip-level motherboard diagnostics and broken hinge repairs to same-day NVMe SSD cloning, DDR4/DDR5 RAM upgrades, and LaserJet/InkTank servicing.
+          <p className="text-sm text-muted mt-1 max-w-2xl">
+            Hardware diagnostics, laptop and desktop repairs, RAM and SSD upgrades, storage replacement, printer servicing, and component replacement.
           </p>
         </div>
 
-        <a
-          href="#book-repair"
-          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-blue-700 shrink-0"
-        >
-          <Wrench className="h-4 w-4" />
-          <span>Book a Repair Request</span>
-        </a>
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <a
+            href="#book-repair"
+            data-testid="jump-to-book-repair"
+            className="inline-flex items-center gap-2 rounded-control bg-brand-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 transition-colors"
+          >
+            <Wrench className="h-4 w-4" aria-hidden="true" />
+            <span>Book a Repair Request</span>
+          </a>
+          <Link
+            href="/account/repairs"
+            className="inline-flex items-center gap-2 rounded-control border border-subtle bg-panel px-4 py-2.5 text-xs font-semibold text-fg hover:border-accent transition-colors"
+          >
+            <span>Track Existing Repair</span>
+          </Link>
+        </div>
       </div>
 
-      {/* Category Filter Pills */}
+      {/* Category Filter Tabs */}
       <div className="flex flex-wrap items-center gap-2">
         <button
+          type="button"
           onClick={() => setSelectedCategory('')}
-          className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition ${
+          className={`rounded-control px-3.5 py-2 text-xs font-semibold transition-colors ${
             selectedCategory === ''
-              ? 'bg-slate-900 text-white'
-              : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+              ? 'bg-brand-600 text-white'
+              : 'border border-subtle bg-panel text-fg hover:border-accent'
           }`}
         >
           All Hardware Services
         </button>
         {categories.map((cat) => (
           <button
+            type="button"
             key={cat.id}
             onClick={() => setSelectedCategory(cat.slug)}
-            className={`rounded-lg px-3.5 py-2 text-xs font-semibold transition ${
+            className={`rounded-control px-3.5 py-2 text-xs font-semibold transition-colors ${
               selectedCategory === cat.slug
-                ? 'bg-slate-900 text-white'
-                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                ? 'bg-brand-600 text-white'
+                : 'border border-subtle bg-panel text-fg hover:border-accent'
             }`}
           >
             {cat.name}
@@ -150,79 +166,86 @@ function ServicesAndRepairContent() {
 
       {/* Services Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-56 rounded-xl bg-slate-200 animate-pulse" />
+            <div key={i} className="h-56 rounded-card bg-panel animate-pulse border border-subtle" />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map((svc) => (
-            <div
+            <article
               key={svc.id}
-              className="rounded-xl border border-slate-200 bg-white p-6 flex flex-col justify-between hover:shadow-md transition"
+              className="surface-card p-6 flex flex-col justify-between hover:border-accent hover:shadow-card transition-all duration-200"
             >
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="rounded-md bg-blue-50 px-2.5 py-1 font-semibold text-blue-700">
+                <div className="flex items-center justify-between text-xs gap-2">
+                  <span className="rounded-md bg-blue-50 dark:bg-brand-600/20 border border-blue-200/80 dark:border-electric/30 px-2.5 py-1 font-semibold text-brand-700 dark:text-electric">
                     {svc.category?.name}
                   </span>
-                  <span className="text-slate-500 flex items-center gap-1">
-                    <Clock className="h-3.5 w-3.5" /> {svc.estimatedTurnaround}
-                  </span>
+                  {svc.estimatedTurnaround && (
+                    <span className="text-muted flex items-center gap-1 font-mono text-[11px]">
+                      <Clock className="h-3.5 w-3.5 text-accent" aria-hidden="true" /> {svc.estimatedTurnaround}
+                    </span>
+                  )}
                 </div>
 
                 <Link
                   href={`/services/${svc.slug}`}
-                  className="block text-base font-bold text-slate-900 hover:text-blue-600"
+                  className="block font-display text-base font-bold text-fg hover:text-accent transition-colors"
                 >
                   {svc.title}
                 </Link>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-xs text-muted leading-relaxed">
                   {svc.description}
                 </p>
               </div>
 
-              <div className="pt-4 mt-5 border-t border-slate-100 space-y-3">
+              <div className="pt-4 mt-5 border-t border-subtle space-y-3">
                 <div className="flex items-baseline justify-between">
                   <div>
-                    <span className="block text-[10px] uppercase font-semibold text-slate-400">
-                      {svc.pricingType === 'FIXED'
-                        ? 'Fixed Service Charge'
-                        : 'Indicative Starting Price'}
+                    <span className="block font-mono text-[10px] uppercase font-semibold text-muted">
+                      {svc.basePrice
+                        ? svc.pricingType === 'FIXED'
+                          ? 'Fixed Service Charge'
+                          : 'Indicative Starting Price'
+                        : 'Estimate'}
                     </span>
-                    <span className="text-lg font-bold text-slate-900">
-                      {svc.basePrice ? formatINR(svc.basePrice) : 'Diagnostic Quote'}
+                    <span className="font-display text-lg font-bold text-fg">
+                      {svc.basePrice ? formatINR(svc.basePrice) : 'Quote After Inspection'}
                     </span>
                   </div>
-                  <span className="text-[11px] text-emerald-700 font-medium">
-                    <ShieldCheck className="h-3.5 w-3.5 inline mr-0.5" />
-                    90-Day Service Warranty
-                  </span>
+                  {svc.warrantyNote && (
+                    <span className="text-[11px] text-emerald-700 dark:text-emerald-400 font-medium">
+                      <ShieldCheck className="h-3.5 w-3.5 inline mr-0.5" aria-hidden="true" />
+                      {svc.warrantyNote}
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-2">
                   <a
                     href="#book-repair"
                     onClick={() => setServiceId(svc.id)}
-                    className="flex-1 text-center rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800"
+                    className="flex-1 text-center rounded-control bg-brand-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-brand-700 transition-colors"
                   >
                     Select &amp; Book Repair
                   </a>
                   <a
                     href={buildWhatsAppUrl(
-                      `Hello Kiran's Infotech, I need "${svc.title}" service (${svc.estimatedTurnaround}).`,
+                      `Hello Kiran's Infotech, I need "${svc.title}" service.`,
                     )}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center rounded-lg bg-emerald-600 p-2 text-white hover:bg-emerald-500"
+                    aria-label={`WhatsApp enquiry for ${svc.title}`}
+                    className="inline-flex items-center justify-center rounded-control bg-emerald-600 p-2 text-white hover:bg-emerald-500 transition-colors"
                     title="WhatsApp Service Enquiry"
                   >
-                    <MessageCircle className="h-4 w-4" />
+                    <MessageCircle className="h-4 w-4" aria-hidden="true" />
                   </a>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       )}
@@ -230,41 +253,41 @@ function ServicesAndRepairContent() {
       {/* Repair Booking Form Section */}
       <section
         id="book-repair"
-        className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-10 shadow-sm"
+        className="glass-stage rounded-card p-6 sm:p-10"
       >
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="space-y-1">
-            <span className="text-xs font-semibold uppercase tracking-wider text-blue-600">
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
               Online Service Intake &amp; Live Tracking
             </span>
-            <h2 className="text-2xl font-bold text-slate-900">
+            <h2 className="font-display text-2xl font-bold text-fg">
               Book a Hardware Repair or Upgrade Request
             </h2>
-            <p className="text-xs text-slate-500">
-              Receive an instant booking reference (`REP-YYYYMMDD-XXXX`) to track diagnostics, review digital quotations, and approve repair work from your Customer Dashboard.
+            <p className="text-xs text-muted">
+              Receive a booking reference (<span className="font-mono">REP-YYYYMMDD-XXXX</span>) to track diagnostics, review quotations, and approve work from your Customer Dashboard.
             </p>
           </div>
 
           {createdBooking ? (
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-6 space-y-4">
-              <div className="flex items-center gap-3 text-emerald-800">
-                <CheckCircle2 className="h-7 w-7 text-emerald-600 shrink-0" />
+            <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 space-y-4">
+              <div className="flex items-center gap-3 text-emerald-700 dark:text-emerald-300">
+                <CheckCircle2 className="h-7 w-7 shrink-0" />
                 <div>
                   <p className="text-xs font-bold uppercase">
                     Repair Booking Registered
                   </p>
-                  <h3 className="text-xl font-bold">
+                  <h3 className="font-display text-xl font-bold text-fg">
                     Booking Reference: {createdBooking.reference}
                   </h3>
                 </div>
               </div>
-              <p className="text-xs text-emerald-900">
+              <p className="text-xs text-fg">
                 Device: {createdBooking.brand} {createdBooking.model} ({createdBooking.deviceType}) — Issue: {createdBooking.issueCategory}
               </p>
-              <div className="flex items-center gap-3 pt-1">
+              <div className="flex flex-wrap items-center gap-3 pt-1">
                 <Link
                   href="/account/repairs"
-                  className="rounded-lg bg-emerald-700 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-800"
+                  className="rounded-full bg-emerald-600 px-5 py-2 text-xs font-semibold text-white hover:bg-emerald-500 transition"
                 >
                   Track Repair Status in Dashboard
                 </Link>
@@ -274,7 +297,7 @@ function ServicesAndRepairContent() {
                     setCreatedBooking(null);
                     setIssueDescription('');
                   }}
-                  className="rounded-lg border border-emerald-300 bg-white px-4 py-2 text-xs font-semibold text-emerald-800"
+                  className="glass-pill rounded-full px-4 py-2 text-xs font-semibold text-fg"
                 >
                   Submit Another Request
                 </button>
@@ -284,13 +307,13 @@ function ServicesAndRepairContent() {
             <form onSubmit={handleBookRepair} className="space-y-4 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Requested Service (Optional)
                   </label>
                   <select
                     value={serviceId}
                     onChange={(e) => setServiceId(e.target.value)}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   >
                     <option value="">General Diagnostics / Let Technician Advise</option>
                     {services.map((s) => (
@@ -302,13 +325,13 @@ function ServicesAndRepairContent() {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Device Type *
                   </label>
                   <select
                     value={deviceType}
                     onChange={(e) => setDeviceType(e.target.value)}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   >
                     <option value="Laptop">Laptop / Notebook</option>
                     <option value="Desktop">Desktop / Workstation PC</option>
@@ -318,7 +341,7 @@ function ServicesAndRepairContent() {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Brand *
                   </label>
                   <input
@@ -327,12 +350,12 @@ function ServicesAndRepairContent() {
                     value={brand}
                     onChange={(e) => setBrand(e.target.value)}
                     placeholder="e.g. Dell, HP, Lenovo, Apple, Epson"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Model Name / Number *
                   </label>
                   <input
@@ -341,20 +364,20 @@ function ServicesAndRepairContent() {
                     value={model}
                     onChange={(e) => setModel(e.target.value)}
                     placeholder="e.g. Latitude 5420, ThinkPad E14, LaserJet M126nw"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Problem Category *
                   </label>
                   <select
                     value={issueCategory}
                     onChange={(e) => setIssueCategory(e.target.value)}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   >
-                    <option value="Power / No Boot">No Power / Dead Motherboard / Charging Issue</option>
+                    <option value="Power / No Boot">No Power / Charging Issue</option>
                     <option value="SSD & RAM Upgrade">SSD / RAM Performance Upgrade</option>
                     <option value="Screen & Hinge">Broken Screen / Flickering / Hinge Repair</option>
                     <option value="Overheating / Fan Noise">Overheating / Thermal Repaste / Fan Noise</option>
@@ -365,7 +388,7 @@ function ServicesAndRepairContent() {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Serial Number (Optional)
                   </label>
                   <input
@@ -373,24 +396,24 @@ function ServicesAndRepairContent() {
                     value={serialNumber}
                     onChange={(e) => setSerialNumber(e.target.value)}
                     placeholder="Service Tag or Serial Number"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Preferred Drop-off / Service Date
                   </label>
                   <input
                     type="date"
                     value={preferredDate}
                     onChange={(e) => setPreferredDate(e.target.value)}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-fg mb-1">
                     Contact Mobile Number *
                   </label>
                   <input
@@ -399,13 +422,13 @@ function ServicesAndRepairContent() {
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
                     placeholder="+91 98765 43210"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                    className="glass-input w-full rounded-xl px-3.5 py-2"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">
+                <label className="block font-semibold text-fg mb-1">
                   Detailed Problem Description *
                 </label>
                 <textarea
@@ -413,13 +436,13 @@ function ServicesAndRepairContent() {
                   required
                   value={issueDescription}
                   onChange={(e) => setIssueDescription(e.target.value)}
-                  placeholder="Describe symptoms (e.g., LED blink pattern, error message, liquid spill, or desired SSD/RAM capacity)..."
-                  className="w-full rounded-lg border border-slate-200 px-3 py-2"
+                  placeholder="Describe symptoms or desired SSD/RAM upgrade..."
+                  className="glass-input w-full rounded-xl px-3.5 py-2"
                 />
               </div>
 
-              <div className="flex items-center justify-between pt-2">
-                <span className="text-slate-500">
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+                <span className="text-muted">
                   {user
                     ? `Booking linked to account: ${user.name} (${user.email})`
                     : 'Sign in required to submit & track repair request'}
@@ -427,7 +450,7 @@ function ServicesAndRepairContent() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 disabled:opacity-50 transition"
                 >
                   <Send className="h-4 w-4" />
                   <span>
@@ -445,7 +468,7 @@ function ServicesAndRepairContent() {
 
 export default function ServicesPage() {
   return (
-    <Suspense fallback={<div className="p-12 text-center text-sm">Loading services...</div>}>
+    <Suspense fallback={<div className="p-12 text-center text-sm text-muted">Loading services...</div>}>
       <ServicesAndRepairContent />
     </Suspense>
   );

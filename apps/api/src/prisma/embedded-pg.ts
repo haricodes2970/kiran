@@ -55,7 +55,7 @@ export async function ensurePostgresAvailable(): Promise<void> {
 
   if (!process.env.DATABASE_URL) {
     process.env.DATABASE_URL =
-      'postgresql://postgres:postgres@127.0.0.1:5432/postgres?schema=public&sslmode=disable&connection_limit=1';
+      'postgresql://postgres:postgres@127.0.0.1:5432/postgres?schema=public&sslmode=disable&connection_limit=1&pgbouncer=true';
   }
   const dbUrl = process.env.DATABASE_URL;
 
@@ -71,6 +71,12 @@ export async function ensurePostgresAvailable(): Promise<void> {
 
   if (host !== 'localhost' && host !== '127.0.0.1') {
     return;
+  }
+
+  // PGlite executes all TCP sockets against a single backend session; disable Prisma named prepared statements in dev.
+  if (!parsed.searchParams.has('pgbouncer')) {
+    parsed.searchParams.set('pgbouncer', 'true');
+    process.env.DATABASE_URL = parsed.toString();
   }
 
   const alreadyListening = await isPortListening(port, '127.0.0.1');

@@ -1,17 +1,42 @@
 import type { Metadata } from 'next';
+import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { AppProvider } from '@/context/app-context';
-import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+import { ThemeProvider } from '@/context/theme-context';
+import { PublicShell } from '@/components/layout/public-shell';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: {
-    default: "Kiran's Infotech — Computer Hardware, Certified Refurbished Laptops & IT Service Lab",
+    default: "Kiran's Infotech — Laptops, Computer Hardware & IT Services",
     template: "%s | Kiran's Infotech",
   },
   description:
-    "Shop new laptops, desktops, NVMe SSDs, RAM modules, monitors, 40-point certified refurbished laptops, and book chip-level hardware repairs at Kiran's Infotech.",
+    "Discover quality laptops, computer hardware, certified refurbished devices, and professional repair and upgrade services at Kiran's Infotech.",
+  icons: {
+    icon: '/brand/kirans-mark.png',
+    apple: '/brand/kirans-mark.png',
+  },
 };
+
+const THEME_INIT_SCRIPT = `(function(){try{if(location.pathname.startsWith('/admin')){document.documentElement.classList.remove('dark');return;}var t=localStorage.getItem('ki_theme_v1');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -19,12 +44,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
+      <body className="min-h-screen">
         <AppProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <ThemeProvider>
+            <PublicShell>{children}</PublicShell>
+          </ThemeProvider>
         </AppProvider>
       </body>
     </html>

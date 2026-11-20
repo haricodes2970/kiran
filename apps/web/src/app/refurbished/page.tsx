@@ -8,10 +8,10 @@ import {
   Laptop,
   MessageCircle,
   ShieldCheck,
-  ShoppingCart,
 } from 'lucide-react';
 import { apiFetch, buildWhatsAppUrl, formatINR } from '@/lib/api';
 import { useApp } from '@/context/app-context';
+import { AddToCartButton } from '@/components/ui/add-to-cart-button';
 
 export default function RefurbishedMarketplacePage() {
   const { addToCart } = useApp();
@@ -41,37 +41,39 @@ export default function RefurbishedMarketplacePage() {
   }, [brand, conditionGrade, sortBy]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Header Banner */}
-      <div className="rounded-2xl bg-slate-900 text-white p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <div className="space-y-2 max-w-2xl">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-semibold text-emerald-300 border border-emerald-400/30">
-            <ShieldCheck className="h-4 w-4" /> Individually Tested &amp; Serial-Tracked
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-7">
+      {/* Theme-Consistent Header Banner */}
+      <div className="glass-stage rounded-card p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div className="space-y-2.5 max-w-2xl">
+          <span className="inline-flex items-center gap-1.5 rounded-md bg-blue-50 dark:bg-brand-600/20 border border-blue-200/80 dark:border-electric/30 px-2.5 py-1 font-mono text-[11px] font-semibold text-brand-700 dark:text-electric">
+            <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+            <span>Certified Refurbished · Serial-Tracked Single Units</span>
           </span>
-          <h1 className="text-2xl sm:text-3xl font-bold">
-            Certified Refurbished Laptop Marketplace
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-fg">
+            Inspected Refurbished Laptop Marketplace
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Every refurbished laptop sold by Kiran&apos;s Infotech is an individually inspected device with verified screen, keyboard, thermal, SMART storage, and battery health reports. Sold units are automatically removed from availability.
+          <p className="text-xs sm:text-sm text-muted leading-relaxed">
+            Each refurbished laptop listed here includes recorded hardware specs, condition grading, battery status where measured, and single-unit availability tracking.
           </p>
         </div>
         <div className="flex flex-wrap gap-3 shrink-0">
           <Link
             href="/sell-laptop"
-            className="rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-blue-500"
+            className="rounded-control bg-brand-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-brand-700 transition-colors"
           >
             Sell Your Used Laptop
           </Link>
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-4">
-        <div className="flex flex-wrap items-center gap-3">
+      {/* Glass Filter Bar */}
+      <div className="glass-filter rounded-card p-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
           <select
+            aria-label="Filter by brand"
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium"
+            className="glass-input rounded-control px-3 py-2 text-xs font-medium"
           >
             <option value="">All Brands</option>
             <option value="Lenovo">Lenovo ThinkPad</option>
@@ -81,9 +83,10 @@ export default function RefurbishedMarketplacePage() {
           </select>
 
           <select
+            aria-label="Filter by condition grade"
             value={conditionGrade}
             onChange={(e) => setConditionGrade(e.target.value)}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium"
+            className="glass-input rounded-control px-3 py-2 text-xs font-medium"
           >
             <option value="">All Condition Grades</option>
             <option value="GRADE_A_EXCELLENT">Grade A — Excellent</option>
@@ -93,13 +96,14 @@ export default function RefurbishedMarketplacePage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-500">Sort:</span>
+          <span className="text-xs text-muted">Sort:</span>
           <select
+            aria-label="Sort refurbished laptops"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium"
+            className="glass-input rounded-control px-3 py-2 text-xs font-medium"
           >
-            <option value="newest">Recently Certified</option>
+            <option value="newest">Recently Listed</option>
             <option value="price_asc">Price: Low to High</option>
             <option value="price_desc">Price: High to Low</option>
           </select>
@@ -108,94 +112,100 @@ export default function RefurbishedMarketplacePage() {
 
       {/* Listings */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-96 rounded-xl bg-slate-200 animate-pulse" />
+            <div key={i} className="h-96 rounded-card bg-panel animate-pulse border border-subtle" />
           ))}
         </div>
       ) : devices.length === 0 ? (
-        <div className="rounded-xl border border-slate-200 bg-white p-12 text-center space-y-2">
-          <Laptop className="h-10 w-10 text-slate-400 mx-auto" />
-          <p className="text-base font-bold text-slate-900">
+        <div className="surface-card p-10 text-center space-y-2">
+          <Laptop className="h-10 w-10 text-muted mx-auto" aria-hidden="true" />
+          <p className="text-base font-bold text-fg">
             No refurbished units match your current filter
           </p>
-          <p className="text-xs text-slate-500">
-            Reset filters or message us on WhatsApp for upcoming corporate off-lease batches.
+          <p className="text-xs text-muted">
+            Reset filters or enquire on WhatsApp for current showroom availability.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {devices.map((dev) => (
-            <div
+            <article
               key={dev.id}
-              className="rounded-xl border border-slate-200 bg-white overflow-hidden flex flex-col justify-between hover:shadow-md transition"
+              className="surface-card overflow-hidden flex flex-col justify-between hover:border-accent hover:shadow-card transition-all duration-200"
             >
               <div>
-                <div className="relative h-48 bg-slate-100 border-b border-slate-100">
+                <Link
+                  href={`/refurbished/${dev.slug}`}
+                  className="block relative h-48 bg-panel-2 border-b border-subtle overflow-hidden group"
+                >
                   {dev.imageUrls?.[0] ? (
                     <img
                       src={dev.imageUrls[0]}
                       alt={dev.title}
-                      className="h-full w-full object-cover"
+                      loading="lazy"
+                      className="h-full w-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
                     />
                   ) : (
-                    <div className="h-full flex items-center justify-center text-slate-400">
-                      <Laptop className="h-10 w-10" />
+                    <div className="h-full flex items-center justify-center text-muted">
+                      <Laptop className="h-10 w-10" aria-hidden="true" />
                     </div>
                   )}
-                  <span className="absolute top-3 left-3 rounded-md bg-emerald-600 px-2.5 py-1 text-[11px] font-semibold text-white">
-                    {dev.conditionGrade?.replace(/_/g, ' ')}
-                  </span>
-                  <span className="absolute top-3 right-3 rounded-md bg-slate-900/80 px-2 py-0.5 text-[11px] font-mono text-white">
+                  {dev.conditionGrade && (
+                    <span className="absolute top-3 left-3 rounded-md bg-brand-600 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase text-white">
+                      {dev.conditionGrade.replace(/_/g, ' ')}
+                    </span>
+                  )}
+                  <span className="absolute top-3 right-3 rounded-md bg-[#071122]/85 border border-white/15 px-2 py-0.5 text-[10px] font-mono text-white">
                     {dev.deviceCode}
                   </span>
-                </div>
+                </Link>
 
                 <div className="p-5 space-y-3">
                   <Link
                     href={`/refurbished/${dev.slug}`}
-                    className="block font-bold text-slate-900 hover:text-blue-600 text-base leading-snug"
+                    className="block font-display font-bold text-fg hover:text-accent text-base leading-snug transition-colors"
                   >
                     {dev.title}
                   </Link>
 
-                  <div className="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-3 rounded-lg border border-slate-100">
-                    <div>
-                      <span className="block text-[10px] uppercase text-slate-400 font-semibold">
-                        Processor
-                      </span>
-                      <span className="font-medium text-slate-800">{dev.processor}</span>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] uppercase text-slate-400 font-semibold">
-                        RAM &amp; SSD
-                      </span>
-                      <span className="font-medium text-slate-800">
-                        {dev.ram} / {dev.storage}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] uppercase text-slate-400 font-semibold">
-                        Display
-                      </span>
-                      <span className="font-medium text-slate-800">{dev.display}</span>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] uppercase text-slate-400 font-semibold">
-                        Battery Health
-                      </span>
-                      <span className="font-semibold text-emerald-700 inline-flex items-center gap-1">
-                        <BatteryCharging className="h-3.5 w-3.5" />
-                        {dev.batteryHealthPct
-                          ? `${dev.batteryHealthPct}% Verified`
-                          : 'Assessed'}
-                      </span>
-                    </div>
-                  </div>
+                  <dl className="divide-y divide-subtle border-y border-subtle font-mono text-[11px]">
+                    {dev.processor && (
+                      <div className="py-1.5 flex items-center justify-between gap-2">
+                        <dt className="text-muted">CPU</dt>
+                        <dd className="font-medium text-fg truncate text-right">{dev.processor}</dd>
+                      </div>
+                    )}
+                    {(dev.ram || dev.storage) && (
+                      <div className="py-1.5 flex items-center justify-between gap-2">
+                        <dt className="text-muted">RAM / SSD</dt>
+                        <dd className="font-medium text-fg truncate text-right">
+                          {[dev.ram, dev.storage].filter(Boolean).join(' · ')}
+                        </dd>
+                      </div>
+                    )}
+                    {dev.display && (
+                      <div className="py-1.5 flex items-center justify-between gap-2">
+                        <dt className="text-muted">Display</dt>
+                        <dd className="font-medium text-fg truncate text-right">{dev.display}</dd>
+                      </div>
+                    )}
+                    {typeof dev.batteryHealthPct === 'number' && (
+                      <div className="py-1.5 flex items-center justify-between gap-2">
+                        <dt className="text-muted flex items-center gap-1">
+                          <BatteryCharging className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+                          <span>Battery</span>
+                        </dt>
+                        <dd className="font-semibold text-emerald-700 dark:text-emerald-400">
+                          {dev.batteryHealthPct}%
+                        </dd>
+                      </div>
+                    )}
+                  </dl>
 
                   {dev.workPerformed && (
-                    <p className="text-xs text-slate-600 line-clamp-2">
-                      <span className="font-semibold text-slate-800">Refurbished Work: </span>
+                    <p className="text-xs text-muted line-clamp-2">
+                      <span className="font-semibold text-fg">Work Logged: </span>
                       {dev.workPerformed}
                     </p>
                   )}
@@ -203,56 +213,59 @@ export default function RefurbishedMarketplacePage() {
               </div>
 
               <div className="p-5 pt-0 space-y-3">
-                <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                <div className="pt-3 border-t border-subtle flex items-center justify-between gap-3">
                   <div>
-                    <span className="block text-[11px] text-emerald-700 font-medium">
-                      <CheckCircle2 className="h-3 w-3 inline mr-1" />
-                      {dev.warrantyMonths} Months Store Warranty
-                    </span>
-                    <span className="text-xl font-bold text-slate-900">
+                    {typeof dev.warrantyMonths === 'number' && dev.warrantyMonths > 0 && (
+                      <span className="block text-[11px] text-emerald-700 dark:text-emerald-400 font-medium">
+                        <CheckCircle2 className="h-3 w-3 inline mr-1" aria-hidden="true" />
+                        {dev.warrantyMonths}M Store Warranty
+                      </span>
+                    )}
+                    <span className="font-display text-xl font-bold text-fg">
                       {formatINR(dev.sellingPrice)}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href={`/refurbished/${dev.slug}`}
-                      className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
-                    >
-                      Inspection Report
-                    </Link>
-                    <button
-                      onClick={() =>
-                        addToCart({
-                          id: dev.id,
-                          type: 'REFURBISHED',
-                          name: dev.title,
-                          sku: dev.deviceCode,
-                          slug: dev.slug,
-                          price: dev.sellingPrice,
-                          maxStock: 1,
-                          imageUrl: dev.imageUrls?.[0],
-                        })
-                      }
-                      className="inline-flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700"
-                    >
-                      <ShoppingCart className="h-3.5 w-3.5" />
-                      <span>Reserve</span>
-                    </button>
-                    <a
-                      href={buildWhatsAppUrl(
-                        `Hello Kiran's Infotech, I am interested in Certified Refurbished ${dev.title} (Unit ID: ${dev.deviceCode}, Price: ${formatINR(dev.sellingPrice)}).`,
-                      )}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="rounded-lg bg-emerald-600 p-2 text-white hover:bg-emerald-500"
-                    >
-                      <MessageCircle className="h-4 w-4" />
-                    </a>
-                  </div>
+                  <AddToCartButton
+                    label="Add to Cart"
+                    showCartLink
+                    onAdd={() =>
+                      addToCart({
+                        id: dev.id,
+                        type: 'REFURBISHED',
+                        name: dev.title,
+                        sku: dev.deviceCode,
+                        slug: dev.slug,
+                        price: dev.sellingPrice,
+                        maxStock: 1,
+                        imageUrl: dev.imageUrls?.[0],
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Link
+                    href={`/refurbished/${dev.slug}`}
+                    className="flex-1 text-center rounded-control border border-subtle bg-panel-2 px-3 py-1.5 text-xs font-semibold text-fg hover:border-accent transition-colors"
+                  >
+                    Inspect Unit
+                  </Link>
+                  <a
+                    href={buildWhatsAppUrl(
+                      `Hello Kiran's Infotech, I am interested in refurbished ${dev.title} (Unit ID: ${dev.deviceCode}, Price: ${formatINR(dev.sellingPrice)}).`,
+                    )}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`WhatsApp enquiry for ${dev.title}`}
+                    className="inline-flex items-center justify-center gap-1 rounded-control border border-emerald-600/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20 transition-colors"
+                  >
+                    <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span>Enquire</span>
+                  </a>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       )}
